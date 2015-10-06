@@ -1,5 +1,3 @@
-var fs = require('fs');
-
 angular.module('spliced.home', [])
 
 .controller('HomeController', function ($scope, Draw, $location) {
