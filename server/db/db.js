@@ -36,9 +36,17 @@ var playerSchema = new Schema({
   user_name: String
 });
 
+var finalDrawingSchema = new Schema({
+  players: Array,
+  drawing: Buffer,
+  game_id: String
+});
+
 var Game = mongoose.model('Game', gameSchema);
 var Player = mongoose.model('Player', playerSchema);
+var Drawing = mongoose.model('Drawing', finalDrawingSchema);
 
 module.exports.game = Game;
 module.exports.player = Player;
+module.exports.drawing = Drawing;
 module.exports.started = started;

@@ -147,6 +147,18 @@ module.exports = function (app, express) {
           //This function updates the game with the new player data.
           helpers.updateGame(player, gameCode, res);
         });
+
+
+        //Get players - 0, 1, 2, 3 properties are just id's for now
+        db.game.findOne({ game_code: gameCode }, '_id 0 1 2 3 game_code', function(err, results){
+          console.log("Results from find:", results);
+
+          //create a new drawing model to store
+          db.drawing.findOneAndUpdate({ players: [results[0], results[1], results[2], results[3]], drawing: imageBuffer.data, game_id: results['game_code'] }, {}, {upsert: true, 'new': true}, function (err, player) {
+            if (err) { throw err };
+            console.log('Drawing added!');
+          });
+        });
         console.log("File write success");
       }
     });
