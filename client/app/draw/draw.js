@@ -39,10 +39,10 @@ angular.module('spliced.draw', [])
 
   // We need this so we can tell the user which part of the drawing they're using. Check out {{ data.bodyPart[data.userId] }}. 
   $scope.data.bodyPart = {
-    0: "head",
-    1: "chest/upper torso",
-    2: "lower body/legs",
-    3: "feet"
+    0: "upper body: head",
+    1: "upper body: neck to waist",
+    2: "lower body: waist to knees",
+    3: "lower body: knees down to feet"
   };
 
   // This function grabs the canvas HTML element and turns it into a base64 encoded image -- that's what
