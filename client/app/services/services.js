@@ -79,5 +79,15 @@ angular.module('spliced.services', [])
     });
   };
 
+  // This makes a GET request for saved images
+  services.getImages = function(callback) {
+    $http.get('/images')
+    .then(function (images) {
+      callback(images.data)
+    }, function(err) {
+      console.log('There was an error getting the images.');
+    });
+  };
+
   return services;
 });
