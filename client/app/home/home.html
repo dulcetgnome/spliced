@@ -13,3 +13,13 @@
     <a class="button minor" ng-click="enterCode(gameCode)">Submit</a>
   </div>
 </div>
+
+
+<div class="gallery">
+  <p>See what other team's have drawn!</p>
+  <div ng-repeat="image in data.images" class="images">
+    <div class="img">
+      <img ng-src="{{ image }}" alt="Spliced drawing" width="110" height="90">
+    </div>
+  </div>
+</div>
