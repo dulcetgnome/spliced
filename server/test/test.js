@@ -9,7 +9,7 @@ var helpers = require("../config/helpers.js");
 var middleware = require("../config/middleware.js");
 var session = require('express-session');
 var path = require("path");
-var db = require('../DB/DB.js');
+var db = require('../db/db.js');
 // for when we eventually want to test against mock data
 var fs = require('fs');
 var path = require('path');

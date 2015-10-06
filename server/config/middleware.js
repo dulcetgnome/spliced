@@ -1,6 +1,6 @@
 var bodyParser = require('body-parser');
 var helpers = require('./helpers.js'); // our custom middleware
-var db = require('../DB/DB.js');
+var db = require('../db/db.js');
 var path = require('path');
 var fs = require('fs');
 var gm = require('gm');

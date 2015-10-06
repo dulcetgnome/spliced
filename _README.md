@@ -29,9 +29,9 @@
 
 ## Development
 
-Database connection is through mongoose and can be found in Server/DB.js
+Database connection is through mongoose and can be found in server/db/db.js
 
-Scope out Server/config for the meat of the server code.  There is no concept of username and password in this game - game codes are automatically generated and the first four people to hit the URL get to play, in order.
+Scope out server/config for the meat of the server code.  There is no concept of username and password in this game - game codes are automatically generated and the first four people to hit the URL get to play, in order.
 
 
 ### Installing Dependencies
