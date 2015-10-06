@@ -55,6 +55,14 @@ input {
   margin-bottom: 5px;
 }
 
+.codeInput {
+  text-transform: uppercase;
+}
+
+.gamecode {
+  text-transform: uppercase;
+}
+
 .canvas-container canvas {
   margin-top: 10px;
   border: 1px solid #eee;
