@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 angular.module('spliced.home', [])
 
 .controller('HomeController', function ($scope, Draw, $location) {
@@ -21,9 +23,9 @@ angular.module('spliced.home', [])
 
   $scope.getImages = function () {
     Draw.getImages()
-    .then(function (promise) {
-      console.log("promise.data", JSON.stringify(promise.data));
-      $scope.data.images = promise.data;
+    .then(function (images) {
+      console.log("images", images);
+      $scope.data.images = images;
     })
     .catch(function (err) {
       console.log(err);
