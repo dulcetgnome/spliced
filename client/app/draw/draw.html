@@ -2,9 +2,7 @@
   <div class="drawing-area" ng-hide="data.submitted">
     You are drawing the {{ data.bodyPart[data.userId] }}! 
     <div pw-canvas options="{undo: true, width: 400, height: 200, color: data.penColor, lineWidth: 4, imageSrc: data.templateSrc}" ng-model="data.drawing" class="canvas-container" version="data.drawing.version"></div>
-    <div class="color-palette">
-      <div class="swatch" ng-repeat="color in data.penColors" style="background-color:{{color}}" ng-click="switchPenColor(color)"></div>
-    </div>
+    <div pw-color-selector="data.penColors" color="data.penColor"></div>
     <a class="button" ng-click="save()">Save Drawing</a>
     <a ng-click="undo()" class="button minor">Undo</a>
   </div>

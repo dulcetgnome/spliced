@@ -16,10 +16,6 @@ angular.module('spliced.draw', [])
     '#FFF'  // white
   ];
 
-  $scope.switchPenColor = function (color) {
-    $scope.data.penColor = color;
-  };
-
   $scope.data.drawing = {};
 
   // This drawing.version counter is for the Undo button that comes with the angular canvas painting directive.

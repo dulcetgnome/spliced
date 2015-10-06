@@ -96,10 +96,15 @@ h1 {
   margin-top: 2em;
 }
 
-.swatch {
+ul.pwColorSelector {
+    padding: 0;
+}
+
+.pwColorSelector li {
+  display: inline-block;
+  list-style-type: none;
   width: 50px;
   height: 40px;
-  float: left;
   border: 1px solid black;
   cursor: pointer;
 }
