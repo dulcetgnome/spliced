@@ -48,13 +48,13 @@ module.exports = function(grunt) {
         options: {
           reporter: 'spec'
         },
-        src: ['Server/test/*.js']
+        src: ['server/test/*.js']
       }
     },
 
     nodemon: {
       dev: {
-        script: 'Server/server.js'
+        script: 'server/server.js'
       }
     },
 

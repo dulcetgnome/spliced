@@ -1,6 +1,6 @@
 var fs = require('fs');
 var gm = require('gm').subClass({imageMagick: true});
-var db = require('../DB/DB.js');
+var db = require('../db/db.js');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 

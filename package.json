@@ -4,9 +4,9 @@
   "description": "A game where you and your friends create art!",
   "main": "./server/server.js",
   "scripts": {
-    "test": "mocha Server/test/test.js; RES=$?; kill %1; exit $RES",
+    "test": "mocha server/test/test.js; RES=$?; kill %1; exit $RES",
     "postinstall": "node node_modules/bower/bin/bower install",
-    "start": "node Server/server.js"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
