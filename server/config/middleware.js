@@ -25,7 +25,21 @@ module.exports = function (app, express) {
     saveUninitialized: true
   }));
 
+  app.get('/imageGallery', function(req, res) {
+    var files = [];
 
+    fs.readdir('../../uploads', function(err, fileList) {
+      if (err) {
+        throw err;
+      }
+
+      for (var i = 0; i < fileList.length; i++) {
+        files.push('../../client/uploads' + '/' + file);
+      }
+
+      res.json(files);
+    });
+  });
 
   app.get('/game', function(req, res){
     helpers.createNewGame(res);
