@@ -50,12 +50,12 @@ module.exports = {
     console.log("makeImages was invoked... making images");
     console.log("---------");
 
-    var readStream = fs.createReadStream("Server/assets/drawings/" + gameCode + "0.png");
+    var readStream = fs.createReadStream("server/assets/drawings/" + gameCode + "0.png");
     // using http://aheckmann.github.io/gm/docs.html#append
 
     gm(readStream)
     //This is not scalable for N players.  You'll need to append these in some kind of loop.
-    .append("Server/assets/drawings/" + gameCode + "1.png", "Server/assets/drawings/" + gameCode + "2.png", "Server/assets/drawings/" + gameCode + "3.png")
+    .append("server/assets/drawings/" + gameCode + "1.png", "server/assets/drawings/" + gameCode + "2.png", "server/assets/drawings/" + gameCode + "3.png")
     .write('client/uploads/' + gameCode + '.png', function (err) {
       console.log("Streaming the image now");
       if (err) {
