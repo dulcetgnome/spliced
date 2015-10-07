@@ -127,25 +127,21 @@ module.exports = function (app, express) {
 
       // if the user does not already have a session
       if(!helpers.hasSession(req, code)){
+          var game = games[code];
 
-        // create a session for the player.
-        // query the database for the game using the game code
-        db.game.findOne({game_code: code}, function(err, game){
+        // create a session for the player
 
           // if the game doesn't exist, 404.
           if(!game){
-            console.log("No game was found for code: ", code);
             var gameObj = {game_does_not_exist: true};
             res.send(gameObj);
           // if the game DOES exist
           } else {
-            console.log("Game player count is:", game.player_count, "For a game of:", game.num_players, "players");
-
             // check to see if the game is not full
-            if(game.player_count < game.num_players){
+            if(game.players.length < game.numPlayers){
               // create a new player (because this player, as you recall, does not have a session yet)
               helpers.createPlayer(req, res, game, code); 
-            } else if(game.submission_count === game.num_players){
+            } else if(game.submissionCount === game.players.length){
               // the game is full.
               // if the game is COMPLETED (that means that the final image has been drawn on the server),
               helpers.resolveFinishedGame(game);
