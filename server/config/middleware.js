@@ -58,8 +58,20 @@ module.exports = function (app, express) {
         res.sendStatus(404);
       } else {
         console.log('checking for final image')
-        helpers.checkFinalImage(gameCode, function(finalImageURL) {
-          res.send(finalImageURL);
+        helpers.checkFinalImage(gameCode, function(image) {
+          //Add finalImage to database
+          fs.readFile('client' + image.imageURL, function(err, data){
+
+            if (err) { throw err };
+            //Find the current game to get players and game code
+            db.game.findOne({ game_code: req.params.gameCode }, '_id 0 1 2 3 game_code', function(err, game){
+              //Create new drawing with properties
+              db.drawing.findOneAndUpdate({ game_code: game['game_code'] }, { players: [game[0], game[1], game[2], game[3]], drawing: data, game_code: game['game_code'], content_type: 'image/png' }, { upsert: true, 'new': true }, function (err, drawing) {
+                if (err) { throw err };
+                res.send(image);
+              });
+            });
+          });
         }, function(err) {
           console.log('There is no final image yet');
           if (helpers.hasSession(req, gameCode)) {
@@ -78,9 +90,22 @@ module.exports = function (app, express) {
 
     var code = req.params.gameCode;
 
-    //TODO: fill out this empty function!
-    helpers.checkFinalImage(code, function(image) {res.send({imageURL: image});}, function() {
-      // invoke check final image before anything else ... and if the image doesn't exist, then do all the stuff in gameInProgressCallback 
+    //This helper function takes three arguments. The game code, a callback to be executed if the game is done, and a callback to be executed if the game is still in progress.
+    helpers.checkFinalImage(code, function(image) {
+        //Add finalImage to database
+        fs.readFile('client' + image.imageURL, function(err, data){
+
+          if (err) { throw err };
+          //Find the current game to get players and game code
+          db.game.findOne({ game_code: req.params.gameCode }, '_id 0 1 2 3 game_code', function(err, game){
+            //Create new drawing with properties
+            db.drawing.findOneAndUpdate({ game_code: game['game_code'] }, { players: [game[0], game[1], game[2], game[3]], drawing: data, game_code: game['game_code'], content_type: 'image/png' }, { upsert: true, 'new': true }, function (err, drawing) {
+              if (err) { throw err };
+              res.send(image);
+            });
+          });
+        });
+      }, function() {
 
       // if the user does not already have a session
       if(!helpers.hasSession(req, code)){
@@ -147,24 +172,26 @@ module.exports = function (app, express) {
           //This function updates the game with the new player data.
           helpers.updateGame(player, gameCode, res);
         });
-
-
-        //Get players - 0, 1, 2, 3 properties are just id's for now
-        db.game.findOne({ game_code: gameCode }, '_id 0 1 2 3 game_code', function(err, results){
-          console.log("Results from find:", results);
-
-          //create a new drawing model to store
-          db.drawing.findOneAndUpdate({ players: [results[0], results[1], results[2], results[3]], drawing: imageBuffer.data, game_id: results['game_code'] }, {}, {upsert: true, 'new': true}, function (err, player) {
-            if (err) { throw err };
-            console.log('Drawing added!');
-          });
-        });
         console.log("File write success");
       }
     });
   });
 
+  /* Write all completed images to uploads directory */
+  app.get('/imageGallery', function(req, res){
+    db.drawing.find({}, function(err, drawings){
+      var base64Image;
+      var bufferedImage;
 
+      //Iterate through the drawings in the database, creating a file with standard naming conventions each time
+      for (var i = 0; i < drawings.length; i++) {
+        base64Image = drawings[i].drawing.toString('base64');
+        bufferedImage = new Buffer(base64Image, 'base64');
+        fs.writeFileSync('client/uploads/' + drawings[i].game_code + '.png', bufferedImage, 'base64');
+      }
+      res.json(drawings);
+    });
+  });
 
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);

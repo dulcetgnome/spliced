@@ -39,7 +39,8 @@ var playerSchema = new Schema({
 var finalDrawingSchema = new Schema({
   players: Array,
   drawing: Buffer,
-  game_id: String
+  content_type: String,
+  game_code: String
 });
 
 var Game = mongoose.model('Game', gameSchema);
