@@ -34,7 +34,7 @@ module.exports = function (app, express) {
       }
 
       for (var i = 0; i < fileList.length; i++) {
-        files.push(__dirname + '/../../client/uploads' + '/' + fileList[i]);
+        files.push('/uploads/' + fileList[i]);
       }
       res.json(files);
     });
