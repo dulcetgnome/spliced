@@ -65,28 +65,32 @@ angular.module('spliced.draw', [])
   $scope.save = function() {
     var image = document.getElementById("pwCanvasMain").toDataURL();
     Draw.save(image, $scope.data.gameCode, $cookies.getAll());
-    $scope.data.submitted = true;
+    // $scope.data.submitted = true;
     // send the image to the server.
+    
+    console.log("Forwarding you to /#/game/:code/status");
+    var newLocation = '/game/' + $scope.data.gameCode + '/status';
+    $location.path(newLocation);
   };
 
-  $scope.getGameStatus = function() {
-    console.log("Getting the game status for", $scope.data.gameCode);
-    Draw.getGameStatus($scope.data.gameCode, function(response) {
-      console.log("The game status response is...", response);
-      // if the game has the property imageURL
-      if (response.data.hasOwnProperty("imageURL")) {
-        // direct user to /result page
+  // $scope.getGameStatus = function() {
+  //   console.log("Getting the game status for", $scope.data.gameCode);
+  //   Draw.getGameStatus($scope.data.gameCode).then(function(gameData) {
+  //     console.log("The gameData is...", gameData);
+  //     // if the game has the property imageURL
+  //     if (gameData.hasOwnProperty("imageURL")) {
+  //       // direct user to /result page
 
-      }
-      var submittedDrawing = $scope.data.gameCode + '_submitted_drawing';
-      if (response.data[submittedDrawing]) {
-        console.log("You submitted a drawing!!!!");
-        console.log("Forwarding you to /#/game/:code/status");
-        var newLocation = '/game/' + $scope.data.gameCode + '/status';
-        $location.path(newLocation);
-      }
-    });
-  };
+  //     }
+  //     var submittedDrawing = $scope.data.gameCode + '_submitted_drawing';
+  //     if (gameData[submittedDrawing]) {
+  //       console.log("You submitted a drawing!!!!");
+  //       console.log("Forwarding you to /#/game/:code/status");
+  //       var newLocation = '/game/' + $scope.data.gameCode + '/status';
+  //       $location.path(newLocation);
+  //     }
+  //   });
+  // };
 
 
 

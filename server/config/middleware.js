@@ -79,6 +79,7 @@ module.exports = function (app, express) {
             helpers.getPlayerSession(req, res, gameCode); 
           } else {
             console.log("This is a new player, they have no session yet");
+            res.send({});
           }
           // res.sendStatus(201);
         })
