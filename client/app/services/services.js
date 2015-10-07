@@ -62,20 +62,9 @@ angular.module('spliced.services', [])
   // home (#).
   services.getGameStatus = function(gameCode, callback) {
     console.log("Getting game data...");
-
-    $http.get('/game/' + gameCode + '/status')
+    return $http.get('/game/' + gameCode + '/status')
     .then(function(response){
-      console.log("The game data is...", response);
-      var submittedDrawing = gameCode + '_submitted_drawing';
-      if (response.data[submittedDrawing] || response.data.imageURL) {
-        console.log("Forwarding you to /#/game/:code/status");
-        var newLocation = '/game/' + gameCode + '/status';
-        $location.path(newLocation);
-      }
-      callback(response);
-    }, function(err){
-      console.log("The game doesn't exist", err);
-      $location.path('/#');
+      return response.data;
     });
   };
 
