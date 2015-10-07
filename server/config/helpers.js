@@ -21,16 +21,10 @@ module.exports = {
     res.send(500, {error: error.message});
   },
 
-  hasSession: function (req, code) {
+  hasSession: function (req, game) {
     // console.log('Inside hasSession, req.cookie is: ', req.cookies);
     //return req.session ? !!req.session.user : false;
-    if(!req.session.user){
-      return false;
-    } else if(req.cookies[code + '_playerID']) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!req.session.user     
   },
 
   decodeBase64Image: function(dataString) {
@@ -111,12 +105,8 @@ module.exports = {
     callback({game: game, player: player});
   },
 
-  getPlayerSession: function(req, res, code) {
+  getPlayerSession: function(req, res, game) {
     // check if the user has submitted their drawing.
-    console.log("-----------------------");
-    console.log("getting the player session...");
-    console.log("-----------------------");
-    console.log(req.cookies);
     var username = req.cookies[code + '_playerID'];
     console.log('username is', username);
     db.player.findOne({game_code: code, _id: username}, function(err, player) {
