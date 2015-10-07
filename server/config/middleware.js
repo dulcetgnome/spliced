@@ -27,6 +27,7 @@ module.exports = function (app, express) {
 
   app.get('/imageGallery', function(req, res) {
     var files = [];
+    var exclude = ['foo.txt'];
 
     fs.readdir(__dirname + '/../../client/uploads', function(err, fileList) {
       if (err) {
@@ -34,7 +35,9 @@ module.exports = function (app, express) {
       }
 
       for (var i = 0; i < fileList.length; i++) {
-        files.push('/uploads/' + fileList[i]);
+        if (exclude.indexOf(fileList[i]) === -1) {
+          files.push('/uploads/' + fileList[i]);
+        }
       }
       res.json(files);
     });
