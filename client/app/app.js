@@ -5,7 +5,9 @@ angular.module('spliced', [
   'ngRoute',
   'pw.canvas-painter',
   'spliced.home',
-  'ngCookies'
+  'ngCookies',
+  'ngTouch',
+  'angular-carousel'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider

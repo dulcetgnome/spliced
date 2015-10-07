@@ -14,10 +14,14 @@
   </div>
 
   <div class="gallery">
-    <p>See what other teams have drawn!</p>
-    <div ng-repeat="image in data.images" class="images">
-      <img ng-src="{{ image }}" alt="Spliced drawing" width="400px" height="800px" class="img">
-    </div>
+    <p class="tagline">See what other teams have drawn!</p>
+
+    <ul rn-carousel rn-carousel-auto-slide class="image">
+      <li ng-repeat="image in data.images" class="images">
+        <!-- <div class="layer">{{ image }}</div> -->
+        <img ng-src="{{ image }}" alt="Spliced drawing" width="400px" height="800px" class="img layer">
+      </li>
+    </ul>
   </div>
 </div>
 

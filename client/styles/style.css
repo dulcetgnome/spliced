@@ -101,11 +101,11 @@ h1 {
 }
 
 .gallery {
+  padding-top: 10px;
   clear: both;
 }
 
 img.img {
-  border: 1px solid #0000ff;
   width: auto;
   text-align: center;
 }
@@ -114,6 +114,11 @@ img.img {
   width: 100%;
   float: left;
   margin-top: 2em;
+}
+
+ul {
+  width: 400px;
+  height: 800px;
 }
 
 ul.pwColorSelector {
@@ -127,6 +132,11 @@ ul.pwColorSelector {
   height: 40px;
   border: 1px solid black;
   cursor: pointer;
+}
+
+.tagline {
+  color: red;
+  font-weight: bold;
 }
 
 @media (max-width: 400px) {
