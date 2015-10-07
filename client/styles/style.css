@@ -134,6 +134,10 @@ ul.pwColorSelector {
   cursor: pointer;
 }
 
+.tagline {
+  color: red;
+}
+
 @media (max-width: 400px) {
   img {
     width: 100%;

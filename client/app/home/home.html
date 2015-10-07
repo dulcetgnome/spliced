@@ -13,14 +13,16 @@
     <a class="button minor" ng-click="enterCode(gameCode)">Submit</a>
   </div>
 
-  <p class="gallery"><strong>See what other teams have drawn!</strong></p>
+  <div class="gallery">
+    <p class="tagline"><strong>See what other teams have drawn!</strong></p>
 
-  <ul rn-carousel rn-carousel-auto-slide class="gallery image">
-    <li ng-repeat="image in data.images" class="images">
-      <!-- <div class="layer">{{ image }}</div> -->
-      <img ng-src="{{ image }}" alt="Spliced drawing" width="400px" height="800px" class="img layer">
-    </li>
-  </ul>
+    <ul rn-carousel rn-carousel-auto-slide class="image">
+      <li ng-repeat="image in data.images" class="images">
+        <!-- <div class="layer">{{ image }}</div> -->
+        <img ng-src="{{ image }}" alt="Spliced drawing" width="400px" height="800px" class="img layer">
+      </li>
+    </ul>
+  </div>
 </div>
 
 
