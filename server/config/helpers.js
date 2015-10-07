@@ -62,7 +62,7 @@ module.exports = {
         console.log("There was an error creating the exquisite corpse:", err);
       } else {
         console.log("The exquisite corpse was combined successfuly!");
-        db.game.findOneAndUpdate({ game_code: gameCode }, {drawing_finished: true}, function(err, game) {
+        db.game.findOneAndUpdate({ game_code: gameCode }, { drawing_finished: true }, function(err, game) {
           if (err) {
             console.log("There was an error updating the drawing_finished property on the game in the DB.");
           } else {
