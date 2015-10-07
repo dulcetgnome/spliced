@@ -1,6 +1,8 @@
 var fs = require('fs');
 var gm = require('gm').subClass({imageMagick: true});
 var db = require('../db/db.js');
+var Game = require('../game/game.js')
+var Player = require('../game/player.js')
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
@@ -20,9 +22,9 @@ module.exports = {
   },
 
   hasSession: function (req, code) {
-    console.log('Inside hasSession, req.cookie is: ', req.cookies);
+    // console.log('Inside hasSession, req.cookie is: ', req.cookies);
     //return req.session ? !!req.session.user : false;
-    if(!!req.session.user === false){
+    if(!req.session.user){
       return false;
     } else if(req.cookies[code + '_playerID']) {
       return true;
@@ -210,6 +212,8 @@ module.exports = {
           module.exports.makeImages(gameCode, game.num_players, function() {
             if (err) throw err;
             console.log("Done drawing the image, check the image folder!");
+            
+            // dont' worry about this, it's never used
             if(callback){
               callback();
             }

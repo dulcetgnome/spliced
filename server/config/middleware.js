@@ -4,9 +4,12 @@ var db = require('../db/db.js');
 var path = require('path');
 var fs = require('fs');
 var gm = require('gm');
+var Game = require('../game/game.js')
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
+// store all of the current games
+var games = {};
 
 module.exports = function (app, express) {
   // Express 4 allows us to use multiple routers with their own configurations
@@ -44,13 +47,24 @@ module.exports = function (app, express) {
   });
 
   app.get('/game', function(req, res){
-    helpers.createNewGame(res);
+    var game = new Game();
+    games[game.gameCode] = game;
   });
 
   app.get('/game/:gameCode/status', function(req, res){
-    console.log("getting game status");
     var gameCode = req.params.gameCode; 
     // if the game exists in the database
+    if (gameCode in games) {
+      games[gameCode].checkFinalImage(gameCode, function(finalImageURL) {
+        res.send(finalImageURL);
+      }, function() {
+        if (helpers.hasSession(req, gameCode)) {
+          helpers.getPlayerSession(req, res, gameCode);
+        })
+      });
+    }
+
+
     db.game.findOne({game_code: gameCode}, function(err, game) {
       if (err) {
         console.log(err);
@@ -152,7 +166,7 @@ module.exports = function (app, express) {
   //submits a game image and handles the logic for drawing the final image.
   app.post('/game/:gameCode', function(req, res){
     var image = req.body.image;
-    var cookieData = req.body.cookieData;
+    var cookieData = req.body.cookieData;C
     var gameCode = req.params.gameCode;
     console.log("The game's player ID: ", cookieData[gameCode+"_playerName"]);
     var username = cookieData[gameCode+"_playerName"];
