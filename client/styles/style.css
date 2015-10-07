@@ -136,6 +136,7 @@ ul.pwColorSelector {
 
 .tagline {
   color: red;
+  font-weight: bold;
 }
 
 @media (max-width: 400px) {
