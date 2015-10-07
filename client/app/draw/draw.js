@@ -1,7 +1,9 @@
 angular.module('spliced.draw', [])
 
-.controller('DrawController', function ($scope, $route, Draw, $q, $location, $cookies) {
+.controller('DrawController', function ($scope, $route, Draw, $q, $location, $cookies, $timeout) {
   // drawing info will go here.
+
+
   $scope.data = {};
 
   $scope.data.penColor = '#000';
@@ -44,6 +46,19 @@ angular.module('spliced.draw', [])
 
   var templateId = $cookies.get('templateId');
   $scope.data.userId = $cookies.get($scope.data.gameCode + '_playerName');
+
+  var startTime = Date.now(); // Get it from session
+  var gameLength = 2 * 60 * 1000; // 2 minutes
+
+  var updateTime = function() {
+    $scope.timeRemaining = (startTime + gameLength - Date.now());
+    if($scope.timeRemaining > 0) {
+      $timeout(updateTime);
+    } else {
+      $scope.save();
+    }
+  };
+  updateTime();
 
   // all templates are stored inside assets/bg/. Feel free to add more! :) 
 
