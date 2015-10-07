@@ -95,42 +95,20 @@ module.exports = {
   },
 
   //Create a new player for a specific game.
-  createPlayer: function(req, res, game, code, callback) {
+  createPlayer: function(req, res, game, callback) {
 
-    var userName = game.player_count;
-    console.log("When we create the player, the code is", code);
+    var userName = game.players.length;
 
-    // add this player to the database.
-    db.player.findOneAndUpdate({user_name: userName, game_code: code}, {user_name: userName, counted: false, game_code: code, started_drawing: true}, {upsert: true, 'new': true}, function (err, player) {
-      // console.log("New player", userName, "Has been added to game:", code);
-      // console.log("We are making cookies!");
-      res.cookie(code + '_playerName', player.user_name, { maxAge: 900000, httpOnly: false});
-      res.cookie(code + '_playerID', player._id,{ maxAge: 900000, httpOnly: false});
-      res.cookie(code, true, { maxAge: 900000, httpOnly: false});
-      req.session.user = player._id;
-      // console.log("The cookies are:", res.cookie);
-      // once the player has been added, we'll update the game table with the new player's info
-      // this update also includes count++
-      // console.log("We're creating the player. the Player is:", player);
-      var gameObj = {};
-      gameObj.$inc = {'player_count':1};
-      gameObj[userName] = player.id;
-      console.log("Console logging gameObj", gameObj);
-      db.game.findOneAndUpdate({game_code: code}, gameObj, function(err, game){
-        if(err){
-          console.log(err);
-        } else {
-          // console.log("GET GAME: This is the game data", game);
-          // send game back to client.
-          res.cookie('templateId', game.template,{ maxAge: 900000, httpOnly: false});
-          res.send({game: game, player: player});
-          if(callback){
-            callback(player);
-          }
-        }
+    // create a player object
+    var player = newPlayer(userName);
+    req.session.user = this.playerId;
+    
+    // add player to game
+    game.players.push(player);
 
-      });
-    });
+    res.cookie('templateId', game.template,{ maxAge: 900000, httpOnly: false});
+
+    callback({game: game, player: player});
   },
 
   getPlayerSession: function(req, res, code) {

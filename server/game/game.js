@@ -33,13 +33,13 @@ Game.prototype.addPlayer = function (player) {
   if this.players.length < 4 {
     this.players.push(player);
   }
-}
+};
 
 Game.prototype.updateSubmissions = function (submission) {
   this.submissionCount++;
-}
+};
 
-Game.prototype.makeImages: function(gameCode, numPlayers, callback) {
+Game.prototype.makeImages = function(gameCode, numPlayers, callback) {
     console.log("---------");
     console.log("makeImages was invoked... making images");
     console.log("---------");

@@ -140,7 +140,9 @@ module.exports = function (app, express) {
             // check to see if the game is not full
             if(game.players.length < game.numPlayers){
               // create a new player (because this player, as you recall, does not have a session yet)
-              helpers.createPlayer(req, res, game, code); 
+              helpers.createPlayer(req, res, game, function(gameData) {
+                res.send(gameData);
+              }); 
             } else if(game.submissionCount === game.players.length){
               // the game is full.
               // if the game is COMPLETED (that means that the final image has been drawn on the server),

@@ -2,38 +2,10 @@ var Player = function(id) {
   this.playerId = id;
   this.startedDrawing = false;
   this.submitted = false;
-}
+};
 
 module.exports = Player;
 
-// fix the name!!!
-var something = function (err, player) {
-// console.log("New player", userName, "Has been added to game:", code);
-// console.log("We are making cookies!");
-res.cookie(code + '_playerName', player.user_name, { maxAge: 900000, httpOnly: false});
-res.cookie(code + '_playerID', player._id,{ maxAge: 900000, httpOnly: false});
-res.cookie(code, true, { maxAge: 900000, httpOnly: false});
-req.session.user = player._id;
-// console.log("The cookies are:", res.cookie);
-// once the player has been added, we'll update the game table with the new player's info
-// this update also includes count++
-// console.log("We're creating the player. the Player is:", player);
-var gameObj = {};
-gameObj.$inc = {'player_count':1};
-gameObj[userName] = player.id;
-console.log("Console logging gameObj", gameObj);
-db.game.findOneAndUpdate({game_code: code}, gameObj, function(err, game){
-  if(err){
-    console.log(err);
-  } else {
-    // console.log("GET GAME: This is the game data", game);
-    // send game back to client.
-    res.cookie('templateId', game.template,{ maxAge: 900000, httpOnly: false});
-    res.send({game: game, player: player});
-    if(callback){
-      callback(player);
-    }
-  }
 
   
 createPlayer: function(req, res, game, code, callback) {
