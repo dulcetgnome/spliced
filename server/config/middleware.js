@@ -28,6 +28,10 @@ module.exports = function (app, express) {
     saveUninitialized: true
   }));
 
+  //*******************************
+  // GET Requests
+  //*******************************
+
   app.get('/imageGallery', function(req, res) {
     var files = [];
     var exclude = ['foo.txt'];
@@ -105,7 +109,7 @@ module.exports = function (app, express) {
     if (!game) {
       res.sendStatus(404);
     } else {
-      helpers.checkFinalImage(gameCode, function(image) {
+      game.checkFinalImage(gameCode, function(image) {
         //Add finalImage to database
         fs.readFile('client' + image.imageURL, function(err, data){
           if (err) { 
@@ -132,54 +136,46 @@ module.exports = function (app, express) {
 
   app.get('/game/:gameCode', function(req, res){
 
-    var code = req.params.gameCode;
+    var gameCode = req.params.gameCode;
     var game = games[code];
 
-
-    //This helper function takes three arguments. The game code, a callback to be executed if the game is done, and a callback to be executed if the game is still in progress.
-    helpers.checkFinalImage(code, function(image) {
+    game.checkFinalImage(function(image) {
         //Add finalImage to database
         fs.readFile('client' + image.imageURL, function(err, data){
 
-          if (err) { throw err };
-          //Find the current game to get players and game code
-          db.game.findOne({ game_code: req.params.gameCode }, '_id 0 1 2 3 game_code', function(err, game){
-            //Create new drawing with properties
-            db.drawing.findOneAndUpdate({ game_code: game['game_code'] }, { players: [game[0], game[1], game[2], game[3]], drawing: data, game_code: game['game_code'], content_type: 'image/png' }, { upsert: true, 'new': true }, function (err, drawing) {
-              if (err) { throw err };
-              res.send(image);
-            });
+          if (err) {
+            throw err;
+          }
+          db.drawing.findOneAndUpdate({ gameCode: gameCode }, { players: [game.players[0], game.players[1], game.players[2], game.players[3]], drawing: data, gameCode: gameCode, contentType: 'image/png' }, { upsert: true, 'new': true }, function (err, drawing) {
+            if (err) {
+              throw err;
+            }
+            res.send(image);
           });
         });
       }, function() {
-
       // if the user does not already have a session
-      if(!helpers.hasSession(req, game)){
+      if(!helpers.hasSession(req)){
 
-        // create a session for the player
-
-          // if the game doesn't exist, 404.
-          if(!game){
-            var gameObj = {game_does_not_exist: true};
-            res.send(gameObj);
-          // if the game DOES exist
-          } else {
-            // check to see if the game is not full
-            if(game.players.length < game.numPlayers){
-              // create a new player (because this player, as you recall, does not have a session yet)
-              helpers.createPlayer(req, res, game, function(gameData) {
-                res.send(gameData);
-              }); 
-            } else if(game.submissionCount === game.players.length){
-              // the game is full.
-              // if the game is COMPLETED (that means that the final image has been drawn on the server),
-              helpers.resolveFinishedGame(game);
-            } //TODO: Make something here that will tell people the game is in progress.
+        if(!game){
+          var gameObj = {game_does_not_exist: true};
+          res.send(gameObj);
+        } else {
+          // check to see if the game is not full
+          if(game.players.length < game.numPlayers){
+            // create a new player (because this player, as you recall, does not have a session yet)
+            helpers.createPlayer(req, res, game, function(gameData) {
+              res.send(gameData);
+            }); 
+          } else if(game.submissionCount === game.players.length){
+            // the game is full.
+            // if the game is COMPLETED (that means that the final image has been drawn on the server),
+            game.resolveFinishedGame(function(imageData) {
+              res.send(imageData);
+            });
           }
-        });
-      // if the user already has a session
+        }
       } else {
-        console.log("Hello, the user already has a session");
         helpers.getPlayerSession(req, res, game, function(response) {
           res.send(response);
         }); 
@@ -190,39 +186,6 @@ module.exports = function (app, express) {
     });
   });
 
-  //submits a game image and handles the logic for drawing the final image.
-  app.post('/game/:gameCode', function(req, res){
-    var image = req.body.image;
-    var cookieData = req.body.cookieData;C
-    var gameCode = req.params.gameCode;
-    console.log("The game's player ID: ", cookieData[gameCode+"_playerName"]);
-    var username = cookieData[gameCode+"_playerName"];
-
-    //Generate the image URL with the name taken from the cookie propeties.
-    var imagePath = path.join(__dirname, '/../assets/drawings/', gameCode + username +'.png');
-    var imageBuffer = helpers.decodeBase64Image(image);
-    //First we create the image so we can use it to create the player.
-    // image is created as a base 64 string
-
-    //writes image to a file.
-    fs.writeFile(imagePath, imageBuffer.data, function(err){
-      if(err){
-        console.log("There was an error: " + err);
-        res.sendStatus(500);
-      } else {
-        //db.player.update or insert
-        //this finds the user document in the db and either creates it or updates it (if it already exists).
-        db.player.findOneAndUpdate({game_code: gameCode, user_name: username}, {image:imagePath, submitted_drawing: true}, {upsert: true, 'new': true}, function (err, player) {
-          console.log("Player updated with Image URL, calling helpers.updateGame");
-          //This function updates the game with the new player data.
-          helpers.updateGame(player, gameCode, res);
-        });
-        console.log("File write success");
-      }
-    });
-  });
-
-  /* Write all completed images to uploads directory */
   app.get('/imageGallery', function(req, res){
     db.drawing.find({}, function(err, drawings){
       var base64Image;
@@ -237,6 +200,43 @@ module.exports = function (app, express) {
       res.json(drawings);
     });
   });
+
+  //*******************************
+  // POST Requests
+  //*******************************
+
+  //submits a game image and handles the logic for drawing the final image.
+  app.post('/game/:gameCode', function(req, res){
+    var image = req.body.image;
+    var gameCode = req.params.gameCode;
+    var username = req.session.user;
+    var game = games[gameCode];
+
+    //Generate the image URL with the name taken from the cookie propeties.
+    var imagePath = path.join(__dirname, '/../assets/drawings/', gameCode + username +'.png');
+    var imageBuffer = helpers.decodeBase64Image(image);
+    //First we create the image so we can use it to create the player.
+    // image is created as a base 64 string
+
+    //writes image to a file.
+    fs.writeFile(imagePath, imageBuffer.data, function(err){
+      if(err){
+        console.log("There was an error: " + err);
+        res.sendStatus(500);
+      } else {        
+        game.players[username].submitted = true;
+        game.submissionCount++;
+
+        game.players[username].imagePath = imagePath;
+        //This function updates the game with the new player data.
+        game.update(function() {
+          res.sendStatus(201);
+        });
+      }
+    });
+  });
+
+  /* Write all completed images to uploads directory */
 
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
