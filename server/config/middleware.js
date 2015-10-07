@@ -28,15 +28,14 @@ module.exports = function (app, express) {
   app.get('/imageGallery', function(req, res) {
     var files = [];
 
-    fs.readdir('../../uploads', function(err, fileList) {
+    fs.readdir('../client/uploads', function(err, fileList) {
       if (err) {
         throw err;
       }
 
       for (var i = 0; i < fileList.length; i++) {
-        files.push('../../client/uploads' + '/' + file);
+        files.push('../client/uploads' + '/' + fileList[i]);
       }
-
       res.json(files);
     });
   });
