@@ -16,6 +16,7 @@ angular.module('spliced.draw', [])
     '#F0F', // magenta
     '#FFF'  // white
   ];
+  $scope.data.tool = 'paint';
 
   $scope.data.drawing = {};
 
@@ -46,6 +47,7 @@ angular.module('spliced.draw', [])
   // of the body the user should be drawing (i.e. head, body1, body2, feet), based on their userID, which
   // was sent back. The userID is 0, 1, 2, or 3, depending on who hit the server first. It's a
   // first-come first-served dealio. 
+
 
   var templateId;
   var startTime;
