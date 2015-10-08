@@ -34,7 +34,7 @@ module.exports = function (app, express) {
 
   app.get('/imageGallery', function(req, res) {
     var files = [];
-    var exclude = ['foo.text'];
+    var exclude = ['foo.txt'];
 
     fs.readdir(__dirname + '/../../client/uploads', function(err, fileList) {
       if (err) {
