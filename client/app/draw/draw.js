@@ -1,8 +1,7 @@
 angular.module('spliced.draw', [])
 
-.controller('DrawController', function ($scope, $route, Draw, $q, $location, $cookies, $timeout) {
+.controller('DrawController', function ($scope, $http, $route, Draw, $q, $location, $timeout) {
   // drawing info will go here.
-
 
   $scope.data = {};
 
@@ -42,27 +41,33 @@ angular.module('spliced.draw', [])
 
   $scope.data.gameCode = $route.current.params.code;
 
-  // On the server side, we sent a randomly generated template ID to the user in a cookie. This template
+  // On the server side, we sent a randomly generated template ID. This template
   // ID will give them one of several sets of templates with pre-drawn dots. It'll also assign which part
   // of the body the user should be drawing (i.e. head, body1, body2, feet), based on their userID, which
-  // was sent back in a cookie. The userID is 0, 1, 2, or 3, depending on who hit the server first. It's a
+  // was sent back. The userID is 0, 1, 2, or 3, depending on who hit the server first. It's a
   // first-come first-served dealio. 
 
-  var templateId = $cookies.get('templateId');
-  $scope.data.userId = $cookies.get($scope.data.gameCode + '_playerName');
-
-  var startTime = Date.now(); // Get it from session
-  var gameLength = 2 * 60 * 1000; // 2 minutes
+  var templateId;
+  var startTime;
+  var gameLength;
 
   var updateTime = function() {
-    $scope.timeRemaining = (startTime + gameLength - Date.now());
+    var startDate = new Date(startTime);
+    $scope.timeRemaining = (startDate.setMinutes(startDate.getMinutes() + gameLength) - Date.now());
     if($scope.timeRemaining > 0) {
       $timeout(updateTime);
     } else {
       $scope.save();
     }
   };
-  updateTime();
+
+  Draw.getGameInfo($scope.data.gameCode).then(function(gameInfo){
+    templateId = gameInfo.game.template;
+    $scope.data.userId = gameInfo.userId;
+    startTime = gameInfo.game.startTime;
+    gameLength = gameInfo.game.gameLength;
+    updateTime();
+  });
 
   // all templates are stored inside assets/bg/. Feel free to add more! :) 
 
@@ -83,7 +88,7 @@ angular.module('spliced.draw', [])
 
   $scope.save = function() {
     var image = document.getElementById("pwCanvasMain").toDataURL();
-    Draw.save(image, $scope.data.gameCode, $cookies.getAll());
+    Draw.save(image, $scope.data.gameCode);
     // $scope.data.submitted = true;
     // send the image to the server.
     
