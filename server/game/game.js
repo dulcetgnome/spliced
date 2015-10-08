@@ -18,8 +18,9 @@ Game.prototype.createUniqueGameCode = function(){
   var text = "";
   var possible = "abcdefghijklmnopqrstuvwxyz";
 
-  for( var i=0; i < 4; i++ )
+  for( var i=0; i < 4; i++ ) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
 
   return text;
 };
