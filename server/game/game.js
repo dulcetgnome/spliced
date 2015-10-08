@@ -11,6 +11,8 @@ var Game = function () {
   this.drawingFinished = false;
   this.template = randomTemplateNumber;
   this.startTime = null;
+  /* In minutes */
+  this.gameLength = 2;
 };
 
 Game.prototype.createUniqueGameCode = function(){

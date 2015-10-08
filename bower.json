@@ -21,7 +21,6 @@
     "angular": "~1.4.6",
     "angular-route": "~1.4.6",
     "angular-canvas-painter": "~0.4.0",
-    "angular-cookies": "~1.4.7",
     "angular-carousel": "~1.0.0"
   }
 }

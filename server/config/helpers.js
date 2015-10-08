@@ -22,7 +22,6 @@ module.exports = {
   },
 
   hasSession: function (req) {
-    // console.log('Inside hasSession, req.cookie is: ', req.cookies);
     //return req.session ? !!req.session.user : false;
     return req.session.user !== undefined;
   },
@@ -63,8 +62,6 @@ module.exports = {
     
     // add player to game
     game.players.push(player);
-
-    res.cookie('templateId', game.template,{ maxAge: 900000, httpOnly: false});
 
     callback({game: game, player: player});
   },
