@@ -52,18 +52,22 @@ module.exports = function (app, express) {
   });
 
   app.get('/game/:gameCode/status', function(req, res){
-    var gameCode = req.params.gameCode; 
+    var gameCode = req.params.gameCode;
+    var game = games[gameCode]; 
     // if the game exists in the database
-    if (gameCode in games) {
-      games[gameCode].checkFinalImage(gameCode, function(finalImageURL) {
+    if (game) {
+      game.checkFinalImage(gameCode, function(finalImageURL) {
         res.send(finalImageURL);
       }, function() {
-        if (helpers.hasSession(req, gameCode)) {
-          helpers.getPlayerSession(req, res, gameCode);
-        })
+        if (helpers.hasSession(req)) {
+          helpers.getPlayerSession(req, res, game, function(responseObj) {
+            res.send(responseObj);
+          });
+        }
       });
     }
 
+<<<<<<< HEAD
 
     db.game.findOne({game_code: gameCode}, function(err, game) {
       if (err) {
@@ -97,16 +101,40 @@ module.exports = function (app, express) {
           } else {
             console.log("This is a new player, they have no session yet");
             res.send({});
+=======
+    if (!game) {
+      res.sendStatus(404);
+    } else {
+      helpers.checkFinalImage(gameCode, function(image) {
+        //Add finalImage to database
+        fs.readFile('client' + image.imageURL, function(err, data){
+          if (err) { 
+            throw err;
+>>>>>>> (refactor) GET '/game/:gameCode/status'
           }
-          // res.sendStatus(201);
-        })
-      }
-    })
+          //Create new drawing with properties
+          db.drawing.findOneAndUpdate({ gameCode: gameCode }, { players: [game.players[0], game.players[1], game.players[2], game.players[3]], drawing: data, gameCode: gameCode, contentType: 'image/png' }, { upsert: true, 'new': true }, function (err, drawing) {
+            if (err) {
+              throw err;
+            }
+            res.send(image);
+          });
+        });
+      }, function(err) {
+        if (helpers.hasSession(req, game)) {
+          helpers.getPlayerSession(req, res, game, function(responseObj) {
+            res.send(responseObj);
+          }); 
+        }
+      });
+    }
   });
 
   app.get('/game/:gameCode', function(req, res){
 
     var code = req.params.gameCode;
+    var game = games[code];
+
 
     //This helper function takes three arguments. The game code, a callback to be executed if the game is done, and a callback to be executed if the game is still in progress.
     helpers.checkFinalImage(code, function(image) {
@@ -126,8 +154,7 @@ module.exports = function (app, express) {
       }, function() {
 
       // if the user does not already have a session
-      if(!helpers.hasSession(req, code)){
-          var game = games[code];
+      if(!helpers.hasSession(req, game)){
 
         // create a session for the player
 
@@ -153,7 +180,9 @@ module.exports = function (app, express) {
       // if the user already has a session
       } else {
         console.log("Hello, the user already has a session");
-        helpers.getPlayerSession(req, res, code); 
+        helpers.getPlayerSession(req, res, game, function(response) {
+          res.send(response);
+        }); 
         // if they have seen the game board but haven't submitted their drawing
           // make them finish their drawing, probably by redirecting them to /draw
         // if the user HAS submitted their drawing, send them to the wait screen

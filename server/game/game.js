@@ -71,11 +71,9 @@ Game.prototype.checkFinalImage = function(code, finalImageReadyCallback, gameInP
     fs.stat(finalImageURL, function(err, res) {
       if (err) {
         gameInProgressCallback(err);
-        console.log("The image", finalImageURL, "doesn't exist!");
       } else {
         // if the image exists, then send the path to the image onward.
         var fixedFinalImageURL = finalImageURL.slice(6);
-        console.log("The final image URL was successfully retrieved from the server. It's", fixedFinalImageURL);
         finalImageReadyCallback({imageURL: fixedFinalImageURL});
       }
     });

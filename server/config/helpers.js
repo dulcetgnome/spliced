@@ -21,10 +21,10 @@ module.exports = {
     res.send(500, {error: error.message});
   },
 
-  hasSession: function (req, game) {
+  hasSession: function (req) {
     // console.log('Inside hasSession, req.cookie is: ', req.cookies);
     //return req.session ? !!req.session.user : false;
-    return !!req.session.user     
+    return !!req.session.user;
   },
 
   decodeBase64Image: function(dataString) {
@@ -105,32 +105,24 @@ module.exports = {
     callback({game: game, player: player});
   },
 
-  getPlayerSession: function(req, res, game) {
+  getPlayerSession: function(req, res, game, callback) {
+    // we have already checked that the player has a session in midleware.js
+    // so we are assuming it is valid data
     // check if the user has submitted their drawing.
-    var username = req.cookies[code + '_playerID'];
-    console.log('username is', username);
-    db.player.findOne({game_code: code, _id: username}, function(err, player) {
-      console.log("inside db.player.findOne in getPlayerSession");
-      if (err) console.log("There was an error finding the user by their ID", err)
-      // if the user has submitted their drawing
-      if (player) {
-        if (player.submitted_drawing) {
-          // show them a please wait screen (perhaps with a reload button so they can see the final image)
-          console.log("The player has submitted a drawing. Let's not let them make a new drawing");
-          var codeAndDrawingStatus = code + '_' + 'submitted_drawing';
-          var responseObj = {};
-          responseObj[codeAndDrawingStatus] = true;
-          res.send(responseObj);
-        } else if (!player.submitted_drawing && player.started_drawing) {
-          console.log("The player has started drawing, but hasn't submitted yet.");
-          var codeAndDrawingStatus = code + '_' + 'submitted_drawing';
-          var responseObj = {};
-          responseObj[codeAndDrawingStatus] = false;
-          res.send(responseObj);
-        }
-        console.log(player);
-      }
-    });
+    var username = req.session.user;
+    var player = game.players[username];
+
+    var codeAndDrawingStatus = code + '_' + 'submitted_drawing';
+    var responseObj = {};
+
+    var player = game.players[username];
+    if (player.submitted) {
+      responseObj[codeAndDrawingStatus] = true;
+      res.send(responseObj);
+    } else if (player.startedDrawing) {
+      responseObj[codeAndDrawingStatus] = false;
+      res.send(responseObj);
+    }
   },
 
   createUniqueGameCode: function(){
