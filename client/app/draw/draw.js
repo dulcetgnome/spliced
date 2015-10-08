@@ -53,6 +53,7 @@ angular.module('spliced.draw', [])
   // was sent back. The userID is 0, 1, 2, or 3, depending on who hit the server first. It's a
   // first-come first-served dealio. 
 
+
   var templateId;
   var startTime;
   var gameLength;

@@ -274,9 +274,9 @@ angular.module('pw.canvas-painter')
 						while(b.y < canvas.height && getPixelColor(ctx, b.x, b.y) === startColor) {
 							setPixel(ctxTmp,b.x,b.y);
 							if(b.x > 0) {
-								if(getPixelColor(ctx, b.x-1, b.y) === startColor) {
+								if(getPixelColor(ctx, b.x-1, b.y) === startColor && getPixelColor(ctxTmp, b.x-1, b.y) === '0,0,0,0') {
 									if(!reachLeft) {
-										pixelStack.push([b.x-1,b.y]);
+										pixelStack.push({x:b.x-1, y:b.y});
 										reachLeft = true;
 									}
 								} else if(reachLeft) {
@@ -284,9 +284,9 @@ angular.module('pw.canvas-painter')
 								}
 							}
 							if(b.x < canvas.width) {
-								if(getPixelColor(ctx, b.x+1, b.y) === startColor) {
+								if(getPixelColor(ctx, b.x+1, b.y) === startColor && getPixelColor(ctxTmp, b.x+1, b.y) === '0,0,0,0') {
 									if(!reachRight) {
-										pixelStack.push([b.x+1,b.y]);
+										pixelStack.push({x:b.x+1, y:b.y});
 										reachRight = true;
 									}
 								} else if(reachRight) {
