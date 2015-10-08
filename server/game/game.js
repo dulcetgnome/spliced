@@ -8,10 +8,9 @@ var Game = function () {
   this.numPlayers = 4;
   this.players = [];
   this.submissionCount = 0;
-  // this.gameStarted = true;
   this.drawingFinished = false;
-  this.template = randomTemplateNumber,
-  this.startTime = new Date()
+  this.template = randomTemplateNumber();
+  this.startTime = null;
 };
 
 Game.prototype.createUniqueGameCode = function(){
