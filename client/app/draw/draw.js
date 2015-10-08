@@ -33,11 +33,6 @@ angular.module('spliced.draw', [])
     $scope.data.drawing.version = 0;
   } 
 
-  $scope.changeTool = function(tool) {
-    console.log(tool);
-    $scope.data.tool = tool;
-  }
-
   // If the image has been submitted, we'll show the user a success message
 
   $scope.data.submitted = $scope.data.submitted || false;
