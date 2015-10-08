@@ -1,7 +1,8 @@
 var gm = require('gm').subClass({imageMagick: true});
+var fs = require('fs');
 
 var Game = function () {
-  var randomTemplateNumber = Math.floor(math.random() * 5);
+  var randomTemplateNumber = Math.floor(Math.random() * 5);
 
   this.gameCode = this.createUniqueGameCode();
   this.numPlayers = 4;
@@ -35,7 +36,7 @@ Game.prototype.update = function (callback) {
 };
 
 Game.prototype.addPlayer = function (player) {
-  if this.players.length < 4 {
+  if (this.players.length < 4) {
     this.players.push(player);
   }
 };

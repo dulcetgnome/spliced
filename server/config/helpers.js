@@ -91,11 +91,11 @@ module.exports = {
   //Create a new player for a specific game.
   createPlayer: function(req, res, game, callback) {
 
-    var userName = game.players.length;
+    var userId = game.players.length;
 
     // create a player object
-    var player = newPlayer(userName);
-    req.session.user = this.playerId;
+    var player = new Player(userId);
+    req.session.user = player.playerId;
     
     // add player to game
     game.players.push(player);
@@ -112,7 +112,7 @@ module.exports = {
     var username = req.session.user;
     var player = game.players[username];
 
-    var codeAndDrawingStatus = code + '_' + 'submitted_drawing';
+    var codeAndDrawingStatus = game.gameCode + '_' + 'submitted_drawing';
     var responseObj = {};
 
     var player = game.players[username];
