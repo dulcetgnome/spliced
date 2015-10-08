@@ -9,7 +9,7 @@ var Game = function () {
   this.players = [];
   this.submissionCount = 0;
   this.drawingFinished = false;
-  this.template = randomTemplateNumber();
+  this.template = randomTemplateNumber;
   this.startTime = null;
 };
 
