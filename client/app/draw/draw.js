@@ -27,6 +27,10 @@ angular.module('spliced.draw', [])
 
   $scope.undo = function() { 
     $scope.data.drawing.version--;
+  };
+
+  $scope.reset = function() {
+    $scope.data.drawing.version = 0;
   } 
 
   // If the image has been submitted, we'll show the user a success message
