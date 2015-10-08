@@ -224,6 +224,46 @@ angular.module('pw.canvas-painter')
 					ctxTmp.stroke();
 				};
 
+				var fill = function(e){
+					if(e){
+						e.preventDefault();
+						setPointFromEvent(point, e);
+					}
+					var pixelStack = [point];
+					while(pixelStack.length) {
+						var b = pixelStack.pop();
+						while(b.y-1 >= 0 && getPixelColor(ctx, b.x, b.y-1) === startColor) {
+							b.y--;
+						}
+						var reachLeft = false;
+						var reachRight = false;
+						while(b.y < ctx.canvas.height && getPixelColor(ctx, b.x, b.y) === startColor) {
+							setPixel(ctx,x,b.y);
+							if(b.x > 0) {
+								if(getPixelColor(ctx, b.x-1, b.y) === startColor) {
+									if(!reachLeft) {
+										pixelStack.push([b.x-1,b.y]);
+										reachLeft = true;
+									}
+								} else if(reachLeft) {
+									reachLeft = false;
+								}
+							}
+							if(b.x < ctx.canvas.width) {
+								if(getPixelColor(ctx, b.x+1, b.y) === startColor) {
+									if(!reachRight) {
+										pixelStack.push([b.x+1,b.y]);
+										reachRight = true;
+									}
+								} else if(reachRight) {
+									reachRight = false;
+								}
+							}
+							b.y++;
+						}
+					}
+				}
+
 				var copyTmpImage = function(){
 					if(options.undo){
 						scope.$apply(function(){
