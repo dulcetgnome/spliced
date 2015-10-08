@@ -46,6 +46,17 @@ module.exports = {
 
     var userId = game.players.length;
 
+    if (userId === 0) {
+      game.startTime = new Date();
+      setTimeout(function() {
+        if (!game.drawingFinished) {
+          game.makeImages(function() {
+            res.sendStatus(201);
+          });
+        }
+      }, 130000);
+    }
+
     // create a player object
     var player = new Player(userId);
     req.session.user = player.playerId;
