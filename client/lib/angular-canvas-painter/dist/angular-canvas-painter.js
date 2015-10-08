@@ -63,6 +63,7 @@ angular.module('pw.canvas-painter')
 				options.lineWidth = options.lineWidth || 1;
 				options.undo = options.undo || false;
 				options.imageSrc = options.imageSrc || false;
+				options.tool = options.tool || 'paint';
 
 				// background image
 				if(options.imageSrc){
@@ -224,11 +225,27 @@ angular.module('pw.canvas-painter')
 					ctxTmp.stroke();
 				};
 
+				var setPixel = function(ctx, x, y) {
+						ctx.fillRect(x,y,1,1)
+				};
+
+
+				var getPixelColor = function(ctx, x, y) {
+						return ctx.getImageData(x,y,1,1).data.toString();
+				};
+
 				var fill = function(e){
 					if(e){
 						e.preventDefault();
 						setPointFromEvent(point, e);
 					}
+
+					// Tmp canvas is always cleared up before drawing.
+					ctxTmp.clearRect(0, 0, canvasTmp.width, canvasTmp.height);
+
+					ctx.fillStyle = options.color;
+
+					var startColor = getPixelColor(ctx, x, y);
 					var pixelStack = [point];
 					while(pixelStack.length) {
 						var b = pixelStack.pop();
@@ -237,8 +254,8 @@ angular.module('pw.canvas-painter')
 						}
 						var reachLeft = false;
 						var reachRight = false;
-						while(b.y < ctx.canvas.height && getPixelColor(ctx, b.x, b.y) === startColor) {
-							setPixel(ctx,x,b.y);
+						while(b.y < canvas.height && getPixelColor(ctx, b.x, b.y) === startColor) {
+							setPixel(ctxTmp,x,b.y);
 							if(b.x > 0) {
 								if(getPixelColor(ctx, b.x-1, b.y) === startColor) {
 									if(!reachLeft) {
@@ -249,7 +266,7 @@ angular.module('pw.canvas-painter')
 									reachLeft = false;
 								}
 							}
-							if(b.x < ctx.canvas.width) {
+							if(b.x < canvas.width) {
 								if(getPixelColor(ctx, b.x+1, b.y) === startColor) {
 									if(!reachRight) {
 										pixelStack.push([b.x+1,b.y]);
@@ -262,7 +279,7 @@ angular.module('pw.canvas-painter')
 							b.y++;
 						}
 					}
-				}
+				};
 
 				var copyTmpImage = function(){
 					if(options.undo){
@@ -279,7 +296,13 @@ angular.module('pw.canvas-painter')
 					ppts = [];
 				};
 
-				var startTmpImage = function(e){
+				var fillTmpImage = function(e){
+					e.preventDefault();
+
+					fill(e);
+				};
+
+				var paintTmpImage = function(e){
 					e.preventDefault();
 					canvasTmp.addEventListener(PAINT_MOVE, paint, false);
 
@@ -290,19 +313,31 @@ angular.module('pw.canvas-painter')
 					paint();
 				};
 
+				var paintStartFn = function(e){
+					if(options.tool === 'paint'){
+						paintTmpImage(e);
+					} else if(options.tool === 'fill'){
+						fillTmpImage(e);
+					}
+				};
+
+				var paintEndFn = function(e){
+					copyTmpImage();
+				};
+
 				var initListeners = function(){
-					canvasTmp.addEventListener(PAINT_START, startTmpImage, false);
+					canvasTmp.addEventListener(PAINT_START, paintStartFn, false);
 					canvasTmp.addEventListener('mouseenter', function(e){
 						// If the mouse is down when it enters the canvas, start a path
 						if(e.which === 1){
-							startTmpImage(e);
+							paintStartFn(e);
 						}
 					}, false);
-					canvasTmp.addEventListener(PAINT_END, copyTmpImage, false);
+					canvasTmp.addEventListener(PAINT_END, paintEndFn, false);
 					canvasTmp.addEventListener('mouseleave', function(e){
 						// If the mouse is down when it leaves the canvas, end the path
 						if(e.which === 1){
-							copyTmpImage(e);
+							paintEndFn(e);
 						}
 					}, false);
 				};
