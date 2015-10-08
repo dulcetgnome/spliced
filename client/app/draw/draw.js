@@ -5,6 +5,8 @@ angular.module('spliced.draw', [])
 
   $scope.data = {};
 
+  $scope.load = false;
+
   $scope.data.penColor = '#000';
   $scope.data.penColors = [
     '#000', // black
@@ -68,12 +70,11 @@ angular.module('spliced.draw', [])
     $scope.data.userId = gameInfo.userId;
     startTime = gameInfo.game.startTime;
     gameLength = gameInfo.game.gameLength;
+    // all templates are stored inside assets/bg/. Feel free to add more! :) 
+    $scope.data.templateSrc = '/assets/bg/' + templateId + '-' + $scope.data.userId + '.png';
+    $scope.load = true;
     updateTime();
   });
-
-  // all templates are stored inside assets/bg/. Feel free to add more! :) 
-
-  $scope.data.templateSrc = '/assets/bg/' + templateId + '-' + $scope.data.userId + '.png';
 
   // We need this so we can tell the user which part of the drawing they're using. Check out {{ data.bodyPart[data.userId] }}. 
   $scope.data.bodyPart = {
