@@ -31,6 +31,18 @@ module.run(['$templateCache', function($templateCache) {
 }]);
 })();
 
+(function(module) {
+try {
+  module = angular.module('pw.canvas-painter');
+} catch (e) {
+  module = angular.module('pw.canvas-painter', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('../templates/tool-selector.html',
+    '<ul class="pwToolSelector"><li ng-repeat="tool in toolList track by $index" class="pwTool" ng-class="{\'active\': (selectedTool === tool)}" ng-click="setTool(tool)">{{ tool }}</li></ul>');
+}]);
+})();
+
 
 
 angular.module('pw.canvas-painter')
@@ -126,6 +138,7 @@ angular.module('pw.canvas-painter')
 				ctxTmp.lineJoin = ctxTmp.lineCap = 'round';
 				ctxTmp.lineWidth = 10;
 				ctxTmp.strokeStyle = options.color;
+				ctxTmp.fillStyle = options.color;
 
 
 				//Watch options
@@ -148,6 +161,12 @@ angular.module('pw.canvas-painter')
 				scope.$watch('options.opacity', function(newValue){
 					if(newValue){
 						ctxTmp.globalAlpha = newValue;
+					}
+				});
+
+				scope.$watch('options.tool', function(newValue){
+					if(newValue){
+						options.tool = newValue;
 					}
 				});
 
@@ -243,9 +262,7 @@ angular.module('pw.canvas-painter')
 					// Tmp canvas is always cleared up before drawing.
 					ctxTmp.clearRect(0, 0, canvasTmp.width, canvasTmp.height);
 
-					ctx.fillStyle = options.color;
-
-					var startColor = getPixelColor(ctx, x, y);
+					var startColor = getPixelColor(ctx, point.x, point.y);
 					var pixelStack = [point];
 					while(pixelStack.length) {
 						var b = pixelStack.pop();
@@ -255,7 +272,7 @@ angular.module('pw.canvas-painter')
 						var reachLeft = false;
 						var reachRight = false;
 						while(b.y < canvas.height && getPixelColor(ctx, b.x, b.y) === startColor) {
-							setPixel(ctxTmp,x,b.y);
+							setPixel(ctxTmp,b.x,b.y);
 							if(b.x > 0) {
 								if(getPixelColor(ctx, b.x-1, b.y) === startColor) {
 									if(!reachLeft) {
@@ -370,6 +387,23 @@ angular.module('pw.canvas-painter')
 			link: function(scope){
 				scope.setColor = function(col){
 					scope.selectedColor = col;
+				};
+			}
+		};
+	});
+
+angular.module('pw.canvas-painter')
+	.directive('pwToolSelector', function () {
+		return {
+			restrict: 'AE',
+			scope: {
+				toolList: '=pwToolSelector',
+				selectedTool: '=tool'
+			},
+			templateUrl: '../templates/tool-selector.html',
+			link: function(scope){
+				scope.setTool = function(tool){
+					scope.selectedTool = tool;
 				};
 			}
 		};
