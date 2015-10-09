@@ -56,7 +56,6 @@ module.exports = function (app, express) {
 
   app.get('/game/:gameCode/status', function(req, res){
     var gameCode = req.params.gameCode;
-    console.log()
     var game = games[gameCode]; 
     // if the game exists in the database
     if (game) {
