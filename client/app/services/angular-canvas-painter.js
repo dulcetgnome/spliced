@@ -353,7 +353,7 @@ angular.module('pw.canvas-painter')
 				};
 
 				var drawStar = function(x, y, width, height) {
-					var radius = Math.max(width, height)
+					var radius = Math.max(width, height)/2;
 					drawNgon(5, x, y, radius, 0.5*radius);
 				};
 
