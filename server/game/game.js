@@ -3,8 +3,9 @@ var fs = require('fs');
 
 var Game = function () {
   var randomTemplateNumber = Math.floor(Math.random() * 5);
-  /* Number will be number of background options */
-  var randomBackgroundNumber = Math.floor(Math.random() * 5);
+
+  var backgrounds = ['beach', 'field', 'space', 'burst']; 
+  var randomBackgroundNumber = Math.floor(Math.random() * backgrounds.length);
 
   this.gameCode = this.createUniqueGameCode();
   this.numPlayers = 4;
@@ -12,7 +13,7 @@ var Game = function () {
   this.submissionCount = 0;
   this.drawingFinished = false;
   this.template = randomTemplateNumber;
-  this.background = randomBackgroundNumber;
+  this.background = backgrounds[randomBackgroundNumber];
   this.startTime = null;
   /* In seconds */
   this.gameLength = 120;
@@ -57,13 +58,25 @@ Game.prototype.makeImages = function(callback) {
       picture.append(path + 'defaults/' + this.template + '-' + i + ext);
     }
   }
-  picture.write('client/uploads/' + this.gameCode + ext, function (err) {
+  picture.write('client/uploads/' + this.gameCode + '.temp' + ext, function (err) {
     if (err) {
-      console.log("There was an error creating the exquisite corpse:", err);
+      console.log('There was an error creating the exquisite corpse:', err);
       callback(err);
     } else {
-      this.drawingFinished = true;
-      callback();
+      gm().command('composite') 
+        .in('-gravity', 'center')
+        .in('client/uploads/' + this.gameCode + '.temp' + ext)
+        .in('client/assets/bg/' + this.background + '.png')
+        .write('client/uploads/' + this.gameCode + ext, function (err) {
+          if (err) {
+            console.log('There was an error creating the exquisite corpse:', err);
+            callback(err);
+          }
+          else {
+            this.drawingFinished = true;
+            callback();
+          }
+        });
     }
   }.bind(this));
 
