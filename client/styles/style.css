@@ -136,8 +136,10 @@ ul.image {
 }
 
 ul.pwColorSelector,
-ul.pwToolSelector{
-    padding: 0;
+ul.pwToolSelector,
+ul.pwShapeSelector,
+ul.pwFillSelector{
+  padding: 0px;
 }
 
 .drawing-area .background {
@@ -146,6 +148,8 @@ ul.pwToolSelector{
 }
 
 .pwColorSelector li,
+.pwShapeSelector li,
+.pwFillSelector li,
 .pwToolSelector li {
   display: inline-block;
   list-style-type: none;
@@ -174,7 +178,7 @@ ul.pwToolSelector{
   background-position: center center;
 }
 
-.pwToolSelector li:selectedTool {
+.pwToolSelector li:selected {
   background-color: lightblue;
 }
 
