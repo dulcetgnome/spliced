@@ -8,5 +8,6 @@ client/uploads/.DS_Store
 .DS_Store
 client/uploads/*.png
 server/assets/drawings/*.png
+server/assets/temp/*.png
 
 !client/lib/angular-canvas-painter/dist/angular-canvas-painter.js
