@@ -3,15 +3,19 @@ var fs = require('fs');
 
 var Game = function () {
   var randomTemplateNumber = Math.floor(Math.random() * 5);
+  /* Number will be number of background options */
+  var randomBackgroundNumber = Math.floor(Math.random() * 1);
 
   this.gameCode = this.createUniqueGameCode();
   this.numPlayers = 4;
   this.players = [];
   this.submissionCount = 0;
-  // this.gameStarted = true;
   this.drawingFinished = false;
-  this.template = randomTemplateNumber,
-  this.startTime = new Date()
+  this.template = randomTemplateNumber;
+  this.background = randomBackgroundNumber;
+  this.startTime = null;
+  /* In seconds */
+  this.gameLength = 120;
 };
 
 Game.prototype.createUniqueGameCode = function(){

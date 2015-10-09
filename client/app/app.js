@@ -6,7 +6,6 @@ angular.module('spliced', [
   'ngRoute',
   'pw.canvas-painter',
   'spliced.home',
-  'ngCookies',
   'ngTouch',
   'angular-carousel'
 ])

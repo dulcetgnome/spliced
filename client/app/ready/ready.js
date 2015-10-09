@@ -1,6 +1,6 @@
 angular.module('spliced.ready', [])
 
-.controller('ReadyController', function ($scope, $route, Draw, Strings, $location, $cookies, $timeout) {
+.controller('ReadyController', function ($scope, $route, Draw, Strings, $location, $timeout) {
 
   $scope.data = {};
 

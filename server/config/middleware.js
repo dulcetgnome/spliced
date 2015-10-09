@@ -5,7 +5,6 @@ var path = require('path');
 var fs = require('fs');
 var gm = require('gm');
 var Game = require('../game/game.js')
-var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 // store all of the current games
@@ -14,7 +13,6 @@ var games = {};
 module.exports = function (app, express) {
   // Express 4 allows us to use multiple routers with their own configurations
 
-  app.use(cookieParser());
   //app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
@@ -34,7 +32,7 @@ module.exports = function (app, express) {
 
   app.get('/imageGallery', function(req, res) {
     var files = [];
-    var exclude = ['foo.text'];
+    var exclude = ['foo.txt'];
 
     fs.readdir(__dirname + '/../../client/uploads', function(err, fileList) {
       if (err) {
@@ -165,6 +163,18 @@ module.exports = function (app, express) {
     });
   });
 
+  app.get('/gameInfo/:gameCode', function(req, res) {
+    var gameCode = req.params.gameCode;
+    var game = games[gameCode];
+
+    var responseObj = {};
+
+    responseObj['game'] = game;
+    responseObj['userId'] = req.session.user;
+
+    res.json(responseObj);
+  });
+
   //*******************************
   // POST Requests
   //*******************************
@@ -176,7 +186,7 @@ module.exports = function (app, express) {
     var username = req.session.user;
     var game = games[gameCode];
 
-    //Generate the image URL with the name taken from the cookie propeties.
+    //Generate the image URL with the name.
     var imagePath = path.join(__dirname, '/../assets/drawings/', gameCode + username +'.png');
     var imageBuffer = helpers.decodeBase64Image(image);
     //First we create the image so we can use it to create the player.
