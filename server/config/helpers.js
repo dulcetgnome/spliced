@@ -59,6 +59,7 @@ module.exports = {
     // create a player object
     var player = new Player(userId);
     req.session.user = player.playerId;
+    player.startedDrawing = true;
     
     // add player to game
     game.players.push(player);
@@ -76,11 +77,10 @@ module.exports = {
     var codeAndDrawingStatus = game.gameCode + '_' + 'submitted_drawing';
     var responseObj = {};
 
-    var player = game.players[username];
     if (player.submitted) {
       responseObj[codeAndDrawingStatus] = true;
       callback(responseObj);
-    } else if (player.startedDrawing) {
+    } else {
       responseObj[codeAndDrawingStatus] = false;
       callback(responseObj);
     }

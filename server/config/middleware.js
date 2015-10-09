@@ -51,6 +51,7 @@ module.exports = function (app, express) {
   app.get('/game', function(req, res){
     var game = new Game();
     games[game.gameCode] = game;
+    req.session.user = undefined;
     res.send(game.gameCode);
   });
 
