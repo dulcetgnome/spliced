@@ -53,7 +53,7 @@ module.exports = {
             res.sendStatus(201);
           });
         }
-      }, 130000);
+      }, (game.gameLength + 10) * 1000);
     }
 
     // create a player object

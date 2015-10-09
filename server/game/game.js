@@ -14,8 +14,8 @@ var Game = function () {
   this.template = randomTemplateNumber;
   this.background = randomBackgroundNumber;
   this.startTime = null;
-  /* In minutes */
-  this.gameLength = 2;
+  /* In seconds */
+  this.gameLength = 120;
 };
 
 Game.prototype.createUniqueGameCode = function(){

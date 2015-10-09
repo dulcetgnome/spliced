@@ -57,7 +57,7 @@ angular.module('spliced.draw', [])
 
   var updateTime = function() {
     var startDate = new Date(startTime);
-    $scope.timeRemaining = (startDate.setMinutes(startDate.getMinutes() + gameLength) - Date.now());
+    $scope.timeRemaining = (startDate.setSeconds(startDate.getSeconds() + gameLength) - Date.now());
     if($scope.timeRemaining > 0) {
       $timeout(updateTime);
     } else {
