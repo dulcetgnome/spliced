@@ -51,6 +51,7 @@ angular.module('spliced.draw', [])
   // first-come first-served dealio. 
 
   var backgrounds = ['beach', 'field', 'space', 'burst'];
+  $scope.data.hideBackground = false;
 
   var templateId;
   var backgroundId;
@@ -104,6 +105,9 @@ angular.module('spliced.draw', [])
     $location.path(newLocation);
   };
 
+  $scope.toggleBackground = function() {
+    $scope.data.hideBackground = !$scope.data.hideBackground;
+  };
   // $scope.getGameStatus = function() {
   //   console.log("Getting the game status for", $scope.data.gameCode);
   //   Draw.getGameStatus($scope.data.gameCode).then(function(gameData) {
