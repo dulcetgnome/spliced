@@ -11,11 +11,13 @@ var esES = {
   "enterGameButton": "Comenzar juego",
   "drawingFinishMessage": "Gracias por tu dibujo. Favor de esperar hasta que los demás terminen y volver aquí! El imagen aparecerá pocos momentos después de que todos terminen.",
   "fellowArtistsMessage": "Tus compañeros en arte están trabajando en su obra maestra colaborativa. Chequea más tarde, ¡o molesta a tus compañeros para que terminen más de prisa!",
-  "upperBodyHead": "Estás dibujando la cabeza.",
-  "upperBodyNeck": "Estás dibujando la parte de arriba desde el cuello hasta la cintura.",
-  "lowerBodyWaist": "Estás dibujando la parte inferior desde la cintura hasta las rodillas.",
-  "lowerBodyKnees": "Estás dibujando la parte inferior desde las rodillas hasta los pies",
-  "timeRemainingMessage": "Tiempo que queda:",
+  "bodyPart" : {
+    0: "Estás dibujando la cabeza",
+    1: "Estás dibujando la parte de arriba desde el cuello hasta la cintura",
+    2: "Estás dibujando la parte inferior desde la cintura hasta las rodillas",
+    3: "Estás dibujando la parte inferior desde las rodillas hasta los pies"
+  },
+  "timeRemainingMessage": "Tiempo que queda: ",
   "saveDrawingButton": "Guarda dibujo",
   "undoButton": "Deshaz",
   "startOverButton": "Reinicializa",

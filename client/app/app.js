@@ -3,6 +3,7 @@ angular.module('spliced', [
   'spliced.draw',
   'spliced.ready',
   'spliced.strings',
+  'spliced.index',
   'ngRoute',
   'pw.canvas-painter',
   'spliced.home',

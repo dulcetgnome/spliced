@@ -9,10 +9,12 @@ var jp = {
   "codeIndication" : "コード：",
   "shareLinkMessage": "友達にこのリンクを教えて",
   "enterGameButton": "げーむに入る",
-  "upperBodyHead": "頭と首を描いて",
-  "upperBodyNeck": "胴を描いて",
-  "lowerBodyWaist": "腰から膝を描いて",
-  "lowerBodyKnees": "膝から足までを描いて",
+  "bodyPart" : {
+    0: "頭と首を描いて",
+    1: "胴を描いて",
+    2: "腰から膝を描いて",
+    3: "膝から足までを描いて"
+  },
   "timeRemainingMessage": "残っている時間：",
   "saveDrawingButton": "絵をセーブ",
   "undoButton": "取り消す",

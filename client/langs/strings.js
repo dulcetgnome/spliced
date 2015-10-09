@@ -9,11 +9,13 @@ var enUS = {
   "codeIndication" : "Your Code is:",
   "shareLinkMessage": "Share the link with your friends!",
   "enterGameButton": "Enter Game",
-  "upperBodyHead": "You are drawing the upper body: head",
-  "upperBodyNeck": "You are drawing the upper body: neck to waist",
-  "lowerBodyWaist": "You are drawing the lower body: waist to knees",
-  "lowerBodyKnees": "You are drawing the lower body: knees down to feet",
-  "timeRemainingMessage": "Time remaining:",
+  "bodyPart" : {
+    0: "You are drawing the upper body: head",
+    1: "You are drawing the upper body: neck to waist",
+    2: "You are drawing the lower body: waist to knees",
+    3: "You are drawing the lower body: knees down to feet"
+  },
+  "timeRemainingMessage": "Time remaining: ",
   "saveDrawingButton": "Save Drawing",
   "undoButton": "Undo",
   "startOverButton": "Start Over",

@@ -117,6 +117,17 @@ img.img {
   margin-top: 2em;
 }
 
+.lang {
+  /*display: block;*/
+  position: relative;
+  left: 250px;
+  top: -105px;
+  /*float: right;*/
+  width: 20px;
+  height: 20px;
+  /*margin: 5px;*/
+}
+
 ul.image {
   width: 400px;
   height: 800px;

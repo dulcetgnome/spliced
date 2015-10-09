@@ -10,7 +10,7 @@
 
   <div class="enter-code-form">
     <p>{{ strings.gameCodeMessage }}</p>
-    <input class="codeInput" type="text" placeholder="Your code" ng-model="gameCode" />
+    <input class="codeInput" name="codeInput" type="text" placeholder="{{ strings.gameCodePrompt }}" ng-model="gameCode" />
     <a class="button minor" ng-click="enterCode(gameCode)">{{ strings.submitButton }}</a>
   </div>
 
