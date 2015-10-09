@@ -136,8 +136,10 @@ ul.image {
 }
 
 ul.pwColorSelector,
-ul.pwToolSelector{
-    padding: 0;
+ul.pwToolSelector,
+ul.pwShapeSelector,
+ul.pwFillSelector{
+  padding: 0px;
 }
 
 .drawing-area .background {
@@ -146,6 +148,8 @@ ul.pwToolSelector{
 }
 
 .pwColorSelector li,
+.pwShapeSelector li,
+.pwFillSelector li,
 .pwToolSelector li {
   display: inline-block;
   list-style-type: none;
@@ -174,7 +178,52 @@ ul.pwToolSelector{
   background-position: center center;
 }
 
-.pwToolSelector li:active {
+.pwToolSelector li.shape {
+  background: url('/assets/images/shape.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+.pwShapeSelector li.rect {
+  background: url('/assets/images/rect.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+.pwShapeSelector li.star {
+  background: url('/assets/images/star.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+.pwShapeSelector li.ellipse {
+  background: url('/assets/images/ellipse.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+.pwFillSelector li.true {
+  background: url('/assets/images/filled.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+.pwFillSelector li.false {
+  background: url('/assets/images/stroke.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+
+
+
+.pwToolSelector li:selected {
   background-color: lightblue;
 }
 
