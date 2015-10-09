@@ -39,7 +39,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('../templates/tool-selector.html',
-    '<ul class="pwToolSelector"><li ng-repeat="tool in toolList track by $index" class="pwTool" ng-class="{\'active\': (selectedTool === tool)}" ng-click="setTool(tool)">{{ tool }}</li></ul>');
+    '<ul class="pwToolSelector"><li ng-repeat="tool in toolList track by $index" class="pwTool {{ tool }}" ng-class="{\'active\': (selectedTool === tool)}" ng-click="setTool(tool)">{{ tool }}</li></ul>');
 }]);
 })();
 

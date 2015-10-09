@@ -122,7 +122,8 @@ ul.image {
   height: 800px;
 }
 
-ul.pwColorSelector {
+ul.pwColorSelector,
+ul.pwToolSelector{
     padding: 0;
 }
 
@@ -131,13 +132,37 @@ ul.pwColorSelector {
   padding: 11px 0 0 1px;
 }
 
-.pwColorSelector li {
+.pwColorSelector li,
+.pwToolSelector li {
   display: inline-block;
   list-style-type: none;
   width: 50px;
   height: 40px;
   border: 1px solid black;
   cursor: pointer;
+
+  /* Hide the text. */
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.pwToolSelector li.fill {
+  background: url('/assets/images/fill.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+.pwToolSelector li.paint {
+  background: url('/assets/images/pencil.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: center center;
+}
+
+.pwToolSelector li:active {
+  background-color: lightblue;
 }
 
 .tagline {
