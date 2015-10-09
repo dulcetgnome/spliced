@@ -15,7 +15,7 @@ var esES = {
   "upperBodyNeck": "Estás dibujando la parte de arriba desde el cuello hasta la cintura.",
   "lowerBodyWaist": "Estás dibujando la parte inferior desde la cintura hasta las rodillas.",
   "lowerBodyKnees": "Estás dibujando la parte inferior desde las rodillas hasta los pies",
-  "timeRemainingMessage": "Tiempo que queda: ",
+  "timeRemainingMessage": "Tiempo que queda:",
   "saveDrawingButton": "Guarda dibujo",
   "undoButton": "Deshaz",
   "startOverButton": "Reinicializa",

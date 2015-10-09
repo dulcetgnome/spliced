@@ -1,4 +1,8 @@
 <div id="home">
+  <a class="lang" id="english" alt="english" ng-click="chooseEnglish()"><img src="../../assets/images/UnitedKingdom_small.png" alt="English" /></a>
+  <a class="lang" id="spanish" alt="spanish" ng-click="chooseSpanish()"><img src="../../assets/images/Spain_small.png" alt="Spanish" /></a>
+  <a class="lang" id="french" alt="french" ng-click="chooseFrench()"><img src="../../assets/images/France_small.png" alt="French" /></a>
+  <a class="lang" id="italian" alt="italian" ng-click="chooseItalian()"><img src="../../assets/images/Italy_small.png" alt="Italian" /></a>
   <p>
     {{ strings.intro }}
   </p>
@@ -10,7 +14,7 @@
 
   <div class="enter-code-form">
     <p>{{ strings.gameCodeMessage }}</p>
-    <input class="codeInput" type="text" placeholder="Your code" ng-model="gameCode" />
+    <input class="codeInput" name="codeInput" type="text" placeholder="{{ strings.gameCodePrompt }}" ng-model="gameCode" />
     <a class="button minor" ng-click="enterCode(gameCode)">{{ strings.submitButton }}</a>
   </div>
 

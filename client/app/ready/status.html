@@ -1,9 +1,9 @@
 <div id="status">
   <div class="user-submitted-drawing" ng-hide="data.imageURL">
-    <p>Thanks for your drawing. Please wait for everyone to finish and come back later! The image will appear within moments of everyone completing.</p>
-    <p>You have {{ timeRemaining | date : "m:ss" }} left!</p>
+    <p>{{ strings.drawingFinishMessage }}</p>
+    <p>{{ strings.timeRemainingMessage }} {{ timeRemaining | date : "m:ss" }}</p>
 <!--     <p><a ng-click="getGameStatus()" class="button">Check for final image</a></p> -->
   </div>
   <div class="finalImage" ng-show="data.imageURL" ><img ng-src="{{data.imageURL}}"/></div>
-  <div class="gameStatus" ng-hide="data.imageURL" >Your fellow artists are hard at work on your collaborative masterpiece.  Check back later, or bug them about it!</div>
+  <div class="gameStatus" ng-hide="data.imageURL" >{{ strings.fellowArtistsMessage }}</div>
 </div>

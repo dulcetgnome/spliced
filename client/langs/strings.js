@@ -13,7 +13,7 @@ var enUS = {
   "upperBodyNeck": "You are drawing the upper body: neck to waist",
   "lowerBodyWaist": "You are drawing the lower body: waist to knees",
   "lowerBodyKnees": "You are drawing the lower body: knees down to feet",
-  "timeRemainingMessage": "Time remaining:",
+  "timeRemainingMessage": "Time remaining: ",
   "saveDrawingButton": "Save Drawing",
   "undoButton": "Undo",
   "startOverButton": "Start Over",
