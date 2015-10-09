@@ -1,7 +1,7 @@
 <div id="status">
   <div class="user-submitted-drawing" ng-hide="data.imageURL">
     <p>{{ strings.drawingFinishMessage }}</p>
-    <p>{{ strings.timeRemainingMessage }} {{ timeRemaining | date : "m:ss" }}</p>
+    <p ng-hide="timeRemaining < 0">{{ strings.timeRemainingMessage }} {{ timeRemaining | date : "m:ss" }}</p>
 <!--     <p><a ng-click="getGameStatus()" class="button">Check for final image</a></p> -->
   </div>
   <div class="finalImage" ng-show="data.imageURL" ><img ng-src="{{data.imageURL}}"/></div>
