@@ -1,20 +1,21 @@
 <div id="home">
   <p>
-    Welcome to Spliced, the game that lets you draw an exquisite corpse with your friends. Look at the dots at the top and bottom of the screen to see where your section should start and stop. This will keep everything lined up when you match up with your friends.
+    {{ strings.intro }}
   </p>
   <p>
-    To start, click the Create Game button below!
+    <!-- To start, click the Create Game button below! -->
+    {{ strings.startMessage }}
   </p>
-  <a class="button" ng-click="createGame()">Create Game</a>
+  <a class="button" ng-click="createGame()">{{ strings.createGameButton }}</a>
 
   <div class="enter-code-form">
-    <p>If you have a game code, enter it here:</p>
+    <p>{{ strings.gameCodeMessage }}</p>
     <input class="codeInput" type="text" placeholder="Your code" ng-model="gameCode" />
-    <a class="button minor" ng-click="enterCode(gameCode)">Submit</a>
+    <a class="button minor" ng-click="enterCode(gameCode)">{{ strings.submitButton }}</a>
   </div>
 
   <div class="gallery">
-    <p class="tagline">See what other teams have drawn!</p>
+    <p class="tagline">{{ strings.galleryMessage }}</p>
 
     <ul rn-carousel rn-carousel-auto-slide class="image">
       <li ng-repeat="image in data.images" class="images">
