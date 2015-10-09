@@ -12,12 +12,12 @@
       <!-- <a class="lang" ng-click="chooseSpanish()">Spanish</a> -->
 
       <h1>Spliced</h1>
-      <div ng-controller="IndexController">
-        <a class="lang" id="english" alt="english" ng-click="chooseEnglish()"><img src="../../assets/images/UnitedKingdom_small.png" alt="English" /></a>
-        <a class="lang" id="spanish" alt="spanish" ng-click="chooseSpanish()"><img src="../../assets/images/Spain_small.png" alt="Spanish" /></a>
-        <a class="lang" id="french" alt="french" ng-click="chooseFrench()"><img src="../../assets/images/France_small.png" alt="French" /></a>
-        <a class="lang" id="italian" alt="italian" ng-click="chooseItalian()"><img src="../../assets/images/Italy_small.png" alt="Italian" /></a>
-        <a class="lang" id="japanese" alt="japanese" ng-click="chooseJapanese()"><img src="../../assets/images/Japan_small.png" alt="Japanese" /></a>
+      <div ng-controller="LangSelector">
+        <a class="lang" id="english" alt="english" ng-click="chooseLanguage('enUS')"><img src="../../assets/images/UnitedKingdom_small.png" alt="English" /></a>
+        <a class="lang" id="spanish" alt="spanish" ng-click="chooseLanguage('esES')"><img src="../../assets/images/Spain_small.png" alt="Spanish" /></a>
+        <a class="lang" id="french" alt="french" ng-click="chooseLanguage('frFR')"><img src="../../assets/images/France_small.png" alt="French" /></a>
+        <a class="lang" id="italian" alt="italian" ng-click="chooseLanguage('itIT')"><img src="../../assets/images/Italy_small.png" alt="Italian" /></a>
+        <a class="lang" id="japanese" alt="japanese" ng-click="chooseLanguage('jaJP')"><img src="../../assets/images/Japan_small.png" alt="Japanese" /></a>
       </div>
 
       <div ng-view></div>
@@ -34,7 +34,7 @@
       <script src="langs/strings_fr.js"></script>
       <script src="langs/strings_it.js"></script>
       <script src="langs/strings_ja.js"></script>
-      <script src="index.js"></script>
+      <script src="langs/langSelector.js"></script>
       <script src="app/draw/draw.js"></script>
       <script src="app/ready/ready.js"></script>
       <script src="app/services/services.js"></script>

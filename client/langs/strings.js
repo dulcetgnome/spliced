@@ -22,5 +22,6 @@ var enUS = {
   "successMessage": "Success! Your image has been submitted!",
   "drawingFinishMessage": "Thanks for your drawing. Please wait for everyone to finish and come back later! The image will appear within moments of everyone completing.",
   "fellowArtistsMessage": "Your fellow artists are hard at work on your collaborative masterpiece. Check back later, or bug them about it!",
-  "language": "English",
+  "toggleButton": "Toggle Background",
+  "language": "English"
 };

@@ -13,14 +13,15 @@ var esES = {
   "fellowArtistsMessage": "Tus compañeros en arte están trabajando en su obra maestra colaborativa. Chequea más tarde, ¡o molesta a tus compañeros para que terminen más de prisa!",
   "bodyPart" : {
     0: "Estás dibujando la cabeza",
-    1: "Estás dibujando la parte de arriba desde el cuello hasta la cintura",
-    2: "Estás dibujando la parte inferior desde la cintura hasta las rodillas",
-    3: "Estás dibujando la parte inferior desde las rodillas hasta los pies"
+    1: "Estás dibujando la parte de arriba: desde el cuello hasta la cintura",
+    2: "Estás dibujando la parte inferior: desde la cintura hasta las rodillas",
+    3: "Estás dibujando la parte inferior: desde las rodillas hasta los pies"
   },
   "timeRemainingMessage": "Tiempo que queda: ",
   "saveDrawingButton": "Guarda dibujo",
   "undoButton": "Deshaz",
   "startOverButton": "Reinicializa",
   "successMessage": "¡Éxito! Tu dibujo ha sido entregado.",
-  "language": "Español",
+  "toggleMessage" : "Alterna fondo",
+  "language": "Español"
 };
