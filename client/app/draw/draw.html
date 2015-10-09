@@ -1,6 +1,6 @@
 <div id='draw'> 
   <div class="drawing-area" ng-if="load" ng-hide="data.submitted">
-    <p>{{ data.bodyPart[data.userId] }}!</p>
+    <p>{{ strings.bodyPart[data.userId] }}!</p>
     <p>{{ strings.timeRemainingMessage }} {{ timeRemaining | date : "m:ss" }}</p>
     <img class="background" ng-src="{{data.background}}" ng-hide="data.hideBackground">
     <div pw-canvas options="{undo: true, width: 400, height: 200, color: data.penColor, lineWidth: 4, imageSrc: data.templateSrc, tool: data.tool, opacity: 1}" ng-model="data.drawing" class="canvas-container" version="data.drawing.version"> </div>

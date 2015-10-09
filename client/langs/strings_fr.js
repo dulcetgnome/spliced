@@ -9,10 +9,12 @@ var frFR = {
   "codeIndication" : "Votre code est :",
   "shareLinkMessage": "Envoyez ce code à vos amis !",
   "enterGameButton": "Début du jeu :",
-  "upperBodyHead": "Vous dessinez le haut du corps : la tête",
-  "upperBodyNeck": "Vous dessinez le haut du corps : du cou à la taille",
-  "lowerBodyWaist": "Vous dessinez le bas du corps : de la taille aux genoux",
-  "lowerBodyKnees": "Vous dessinez le bas du corps : des genoux aux pieds",
+  "bodyPart" : {
+    0: "Vous dessinez le haut du corps : la tête",
+    1: "Vous dessinez le haut du corps : du cou à la taille",
+    2: "Vous dessinez le bas du corps : de la taille aux genoux",
+    3: "Vous dessinez le bas du corps : des genoux aux pieds"
+  },
   "timeRemainingMessage": "Il vous reste pour terminer: ",
   "saveDrawingButton": "Sauvegarder le dessin",
   "undoButton": "Annuler",

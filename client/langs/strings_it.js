@@ -9,10 +9,12 @@ var itIT = {
   "codeIndication" : "Il tuo codice è:",
   "shareLinkMessage": "Condividi il link con i tuoi amici!",
   "enterGameButton": "Partecipa al gioco",
-  "upperBodyHead": "Stai disegnando la parte superiore del corpo: testa",
-  "upperBodyNeck": "Stati disegnando la parte superiore del corpo: dal collo alla vita",
-  "lowerBodyWaist": "Stati disegnando la parte inferiore del corpo: dalla vita alle ginocchia",
-  "lowerBodyKnees": "Stati disegnando la parte inferiore del corpo: dalle ginocchia ai piedi",
+  "bodyPart" : {
+    0: "Stai disegnando la parte superiore del corpo: testa",
+    1: "Stati disegnando la parte superiore del corpo: dal collo alla vita",
+    2: "Stati disegnando la parte inferiore del corpo: dalla vita alle ginocchia",
+    3: "Stati disegnando la parte inferiore del corpo: dalle ginocchia ai piedi"
+  },
   "timeRemainingMessage": "Tempo rimasto: ",
   "saveDrawingButton": "Salva disegno",
   "undoButton": "Annulla",

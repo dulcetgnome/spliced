@@ -118,10 +118,14 @@ img.img {
 }
 
 .lang {
-  float: left;
+  /*display: block;*/
+  position: relative;
+  left: 250px;
+  top: -105px;
+  /*float: right;*/
   width: 20px;
   height: 20px;
-  padding-right: 30px;
+  /*margin: 5px;*/
 }
 
 ul.image {
