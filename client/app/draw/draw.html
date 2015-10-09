@@ -16,8 +16,8 @@
       opacity: 1}" ng-model="data.drawing" class="canvas-container" version="data.drawing.version"> </div>
     <div pw-color-selector="data.penColors" color="data.penColor"></div>
     <div pw-tool-selector="['paint','fill', 'shape']" tool="data.tool"></div>
-    <div pw-shape-selector="['rect','ellipse', 'star']" shape="data.shape"></div>
-    <div pw-fill-selector="[true, false]" fillShape="data.fillShape"></div>
+    <div ng-show="data.tool === 'shape'" pw-shape-selector="['rect','ellipse', 'star']" shape="data.shape"></div>
+    <div ng-show="data.tool === 'shape'" pw-fill-selector="[true, false]" fillShape="data.fillShape"></div>
 
     <a class="button" ng-click="save()">{{ strings.saveDrawingButton }}</a>
     <a ng-click="undo()" class="button minor">{{ strings.undoButton }}</a>
