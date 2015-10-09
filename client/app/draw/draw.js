@@ -1,6 +1,6 @@
 angular.module('spliced.draw', [])
 
-.controller('DrawController', function ($scope, $http, $route, Draw, $q, $location, $timeout) {
+.controller('DrawController', function ($rootScope, $scope, $http, $route, Draw, $q, $location, $timeout) {
   // drawing info will go here.
 
   $scope.data = {};
@@ -60,8 +60,8 @@ angular.module('spliced.draw', [])
 
   var updateTime = function() {
     var startDate = new Date(startTime);
-    $scope.timeRemaining = (startDate.setSeconds(startDate.getSeconds() + gameLength) - Date.now());
-    if($scope.timeRemaining > 0) {
+    $rootScope.timeRemaining = (startDate.setMinutes(startDate.getMinutes() + gameLength) - Date.now());
+    if($rootScope.timeRemaining > 0) {
       $timeout(updateTime);
     } else {
       $scope.save();
@@ -100,7 +100,6 @@ angular.module('spliced.draw', [])
     // $scope.data.submitted = true;
     // send the image to the server.
     
-    console.log("Forwarding you to /#/game/:code/status");
     var newLocation = '/game/' + $scope.data.gameCode + '/status';
     $location.path(newLocation);
   };
