@@ -50,8 +50,11 @@ angular.module('spliced.draw', [])
   // was sent back. The userID is 0, 1, 2, or 3, depending on who hit the server first. It's a
   // first-come first-served dealio. 
 
+  var backgrounds = ['beach', 'field', 'space', 'burst'];
+  $scope.data.hideBackground = false;
 
   var templateId;
+  var backgroundId;
   var startTime;
   var gameLength;
 
@@ -67,11 +70,13 @@ angular.module('spliced.draw', [])
 
   Draw.getGameInfo($scope.data.gameCode).then(function(gameInfo){
     templateId = gameInfo.game.template;
+    backgroundId = gameInfo.game.background;
     $scope.data.userId = gameInfo.userId;
     startTime = gameInfo.game.startTime;
     gameLength = gameInfo.game.gameLength;
     // all templates are stored inside assets/bg/. Feel free to add more! :) 
     $scope.data.templateSrc = '/assets/bg/' + templateId + '-' + $scope.data.userId + '.png';
+    $scope.data.background = '/assets/bg/' + backgrounds[backgroundId] + '-' + $scope.data.userId + '.png';
     $scope.load = true;
     updateTime();
   });
@@ -100,6 +105,9 @@ angular.module('spliced.draw', [])
     $location.path(newLocation);
   };
 
+  $scope.toggleBackground = function() {
+    $scope.data.hideBackground = !$scope.data.hideBackground;
+  };
   // $scope.getGameStatus = function() {
   //   console.log("Getting the game status for", $scope.data.gameCode);
   //   Draw.getGameStatus($scope.data.gameCode).then(function(gameData) {

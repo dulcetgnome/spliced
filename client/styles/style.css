@@ -125,6 +125,11 @@ ul.pwColorSelector {
     padding: 0;
 }
 
+.drawing-area .background {
+  position: fixed;
+  padding: 11px 0 0 1px;
+}
+
 .pwColorSelector li {
   display: inline-block;
   list-style-type: none;
