@@ -43,7 +43,29 @@ module.run(['$templateCache', function($templateCache) {
 }]);
 })();
 
+(function(module) {
+try {
+  module = angular.module('pw.canvas-painter');
+} catch (e) {
+  module = angular.module('pw.canvas-painter', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('../templates/shape-selector.html',
+    '<ul class="pwShapeSelector"><li ng-repeat="shape in shapeList track by $index" class="pwShape {{ shape }}" ng-class="{\'active\': (selectedShape === shape)}" ng-click="setShape(shape)">{{ shape }}</li></ul>');
+}]);
+})();
 
+(function(module) {
+try {
+  module = angular.module('pw.canvas-painter');
+} catch (e) {
+  module = angular.module('pw.canvas-painter', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('../templates/fill-selector.html',
+    '<ul class="pwFillSelector"><li ng-repeat="state in fillStates track by $index" class="pwFill {{ state }}" ng-class="{\'active\': (fillShape === state)}" ng-click="setFill(state)">{{ state }}</li></ul>');
+}]);
+})();
 
 angular.module('pw.canvas-painter')
 	.directive('pwCanvas', function () {
@@ -76,6 +98,8 @@ angular.module('pw.canvas-painter')
 				options.undo = options.undo || false;
 				options.imageSrc = options.imageSrc || false;
 				options.tool = options.tool || 'paint';
+				options.shape = options.shape || 'rect';
+				options.fillShape = options.fillShape || false;
 
 				// background image
 				if(options.imageSrc){
@@ -154,6 +178,7 @@ angular.module('pw.canvas-painter')
 				});
 
 				scope.$watch('options.color', function(newValue){
+					console.log(newValue);
 					if(newValue){
 						//ctx.fillStyle = newValue;
 						ctxTmp.strokeStyle = ctxTmp.fillStyle = newValue;
@@ -167,8 +192,23 @@ angular.module('pw.canvas-painter')
 				});
 
 				scope.$watch('options.tool', function(newValue){
+					console.log(newValue);
 					if(newValue){
 						options.tool = newValue;
+					}
+				});
+
+				scope.$watch('options.shape', function(newValue){
+					console.log(newValue);
+					if(newValue){
+						options.shape = newValue;
+					}
+				});
+
+				scope.$watch('options.fillShape', function(newValue){
+					console.log(newValue);
+					if(newValue){
+						options.fillShape = newValue;
 					}
 				});
 
@@ -267,8 +307,74 @@ angular.module('pw.canvas-painter')
 					var width = point.x - startPoint.x;
 					var height = point.y - startPoint.y;
 
-					ctxTmp.strokeRect(startPoint.x, startPoint.y, width, height);
+					//ctxTmp.strokeRect(startPoint.x, startPoint.y, width, height);
+					if(options.shape === 'rect'){
+						drawRect(startPoint.x, startPoint.y, width, height);
+					} else if (options.shape === 'star'){
+						drawStar(startPoint.x, startPoint.y, width, height);
+					} else if (options.shape === 'ellipse'){
+						drawEllipse(startPoint.x, startPoint.y, width, height);
+					}
+
 				}
+
+				var drawRect = function(x, y, width, height){
+					if(options.fillShape){
+						ctxTmp.fillRect(x, y, width, height);
+					} else {
+						ctxTmp.strokeRect(x, y, width, height);
+					}
+				};
+
+				var drawNgon = function (n, x, y, outerRadius, innerRadius){
+					var center = {
+						x: x + outerRadius,
+						y: y + outerRadius
+					};
+					var angle = 0;
+
+					ctxTmp.beginPath();
+					for(var i = 0; i <= 2*n; i++) {
+						if(i%2){
+							x = outerRadius*Math.sin(angle);
+							y = outerRadius*Math.cos(angle);
+						} else{
+							x = innerRadius*Math.sin(angle);
+							y = innerRadius*Math.cos(angle);
+						}
+						ctxTmp.lineTo(center.x + x, center.y + y);
+						angle += Math.PI/n
+					}
+					if(options.fillShape){
+						ctxTmp.fill();
+					} else {	
+						ctxTmp.stroke();
+					}
+				};
+
+				var drawStar = function(x, y, width, height) {
+					var radius = Math.max(width, height)
+					drawNgon(5, x, y, radius, 0.5*radius);
+				};
+
+				var drawEllipse = function (x, y, width, height) {
+					var radius = {
+						x: Math.abs(width/2),
+						y: Math.abs(height/2)
+					};
+
+					var center = {
+						x: x + width/2,
+						y: y + height/2
+					};
+					ctxTmp.beginPath();
+					ctxTmp.ellipse(center.x, center.y, radius.x, radius.y, 0, 0, 2*Math.PI);
+					if(options.fillShape){
+						ctxTmp.fill();
+					} else {	
+						ctxTmp.stroke();					
+					}
+				};
 
 				var setPixel = function(ctx, x, y) {
 						ctx.fillRect(x,y,1,1);
@@ -448,6 +554,40 @@ angular.module('pw.canvas-painter')
 			link: function(scope){
 				scope.setTool = function(tool){
 					scope.selectedTool = tool;
+				};
+			}
+		};
+	});
+
+angular.module('pw.canvas-painter')
+	.directive('pwShapeSelector', function () {
+		return {
+			restrict: 'AE',
+			scope: {
+				shapeList: '=pwShapeSelector',
+				selectedShape: '=shape'
+			},
+			templateUrl: '../templates/shape-selector.html',
+			link: function(scope){
+				scope.setShape = function(shape){
+					scope.selectedShape = shape;
+				};
+			}
+		};
+	});
+
+angular.module('pw.canvas-painter')
+	.directive('pwFillSelector', function () {
+		return {
+			restrict: 'AE',
+			scope: {
+				fillStates: '=pwFillSelector',
+				fillShape: '=fillShape'
+			},
+			templateUrl: '../templates/fill-selector.html',
+			link: function(scope){
+				scope.setFill = function(state){
+					scope.fillShape = state;
 				};
 			}
 		};

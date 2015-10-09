@@ -174,7 +174,7 @@ ul.pwToolSelector{
   background-position: center center;
 }
 
-.pwToolSelector li:active {
+.pwToolSelector li:selectedTool {
   background-color: lightblue;
 }
 
