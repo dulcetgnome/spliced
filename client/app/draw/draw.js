@@ -20,7 +20,7 @@ angular.module('spliced.draw', [])
   ];
   $scope.data.tool = 'paint';
   $scope.data.shape = 'star';
-  $scope.data.fillShape = true;
+  $scope.data.fill = true;
 
   $scope.data.drawing = {};
 

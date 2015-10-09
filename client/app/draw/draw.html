@@ -12,12 +12,13 @@
       imageSrc: data.templateSrc,
       tool: data.tool,
       shape: data.shape,
-      fillShape: data.fillShape,
+      fill: data.fill,
       opacity: 1}" ng-model="data.drawing" class="canvas-container" version="data.drawing.version"> </div>
     <div pw-color-selector="data.penColors" color="data.penColor"></div>
     <div pw-tool-selector="['paint','fill', 'shape']" tool="data.tool"></div>
     <div ng-show="data.tool === 'shape'" pw-shape-selector="['rect','ellipse', 'star']" shape="data.shape"></div>
-    <div ng-show="data.tool === 'shape'" pw-fill-selector="[true, false]" state="data.fillShape"></div>
+    <div ng-show="data.tool === 'shape'" pw-fill-selector="[true, false]" fill="data.fill"></div>
+
 
     <a class="button" ng-click="save()">{{ strings.saveDrawingButton }}</a>
     <a ng-click="undo()" class="button minor">{{ strings.undoButton }}</a>

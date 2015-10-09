@@ -63,9 +63,10 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('../templates/fill-selector.html',
-    '<ul class="pwFillSelector"><li ng-repeat="state in fillStates track by $index" class="pwFill {{ state }}" ng-class="{\'active\': (fillShape === state)}" ng-click="setFill(state)">{{ state }}</li></ul>');
+    '<ul class="pwFillSelector"><li ng-repeat="fill in fillList track by $index" class="pwFill {{ fill }}" ng-class="{\'active\': (selectedFill === fill)}" ng-click="setFill(fill)">{{ fill }}</li></ul>');
 }]);
 })();
+
 
 angular.module('pw.canvas-painter')
 	.directive('pwCanvas', function () {
@@ -99,7 +100,7 @@ angular.module('pw.canvas-painter')
 				options.imageSrc = options.imageSrc || false;
 				options.tool = options.tool || 'paint';
 				options.shape = options.shape || 'rect';
-				options.fillShape = options.fillShape || false;
+				options.fill = options.fill || false;
 
 				// background image
 				if(options.imageSrc){
@@ -202,10 +203,9 @@ angular.module('pw.canvas-painter')
 					}
 				});
 
-				scope.$watch('options.fillShape', function(newValue){
-					console.log(newValue);
-					if(newValue){
-						options.fillShape = newValue;
+				scope.$watch('options.fill', function(newValue){
+					if(newValue !== undefined){
+						options.fill = newValue;
 					}
 				});
 
@@ -316,7 +316,7 @@ angular.module('pw.canvas-painter')
 				}
 
 				var drawRect = function(x, y, width, height){
-					if(options.fillShape){
+					if(options.fill){
 						ctxTmp.fillRect(x, y, width, height);
 					} else {
 						ctxTmp.strokeRect(x, y, width, height);
@@ -342,7 +342,7 @@ angular.module('pw.canvas-painter')
 						ctxTmp.lineTo(center.x + x, center.y + y);
 						angle += Math.PI/n
 					}
-					if(options.fillShape){
+					if(options.fill){
 						ctxTmp.fill();
 					} else {	
 						ctxTmp.stroke();
@@ -366,7 +366,7 @@ angular.module('pw.canvas-painter')
 					};
 					ctxTmp.beginPath();
 					ctxTmp.ellipse(center.x, center.y, radius.x, radius.y, 0, 0, 2*Math.PI);
-					if(options.fillShape){
+					if(options.fill){
 						ctxTmp.fill();
 					} else {	
 						ctxTmp.stroke();					
@@ -579,14 +579,13 @@ angular.module('pw.canvas-painter')
 		return {
 			restrict: 'AE',
 			scope: {
-				fillStates: '=pwFillSelector',
-				fillShape: '=state'
+				fillList: '=pwFillSelector',
+				selectedFill: '=fill'
 			},
 			templateUrl: '../templates/fill-selector.html',
 			link: function(scope){
-				scope.setFill = function(state){
-					console.dir(state);
-					scope.fillShape = state;
+				scope.setFill = function(fill){
+					scope.selectedFill = fill;
 				};
 			}
 		};
