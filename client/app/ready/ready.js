@@ -1,8 +1,9 @@
 angular.module('spliced.ready', [])
 
-.controller('ReadyController', function ($scope, $route, Draw, $location, $timeout) {
+.controller('ReadyController', function ($scope, $route, Draw, Strings, $location, $timeout) {
 
   $scope.data = {};
+
 
   // This property determines what the user sees on /#/game/:code. If the game is complete,
   // they'll see the final image. If not, they'll see a prompt that will allow them to enter the game.

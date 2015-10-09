@@ -2,6 +2,7 @@ angular.module('spliced', [
   'spliced.services',
   'spliced.draw',
   'spliced.ready',
+  'spliced.strings',
   'ngRoute',
   'pw.canvas-painter',
   'spliced.home',
