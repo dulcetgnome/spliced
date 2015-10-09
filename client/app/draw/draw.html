@@ -5,7 +5,7 @@
     <img class="background" ng-src="{{data.background}}" ng-hide="data.hideBackground">
     <div pw-canvas options="{undo: true, width: 400, height: 200, color: data.penColor, lineWidth: 4, imageSrc: data.templateSrc, tool: data.tool, opacity: 1}" ng-model="data.drawing" class="canvas-container" version="data.drawing.version"> </div>
     <div pw-color-selector="data.penColors" color="data.penColor"></div>
-    <div pw-tool-selector="['paint','fill']" tool="data.tool"></div>
+    <div pw-tool-selector="['paint','fill', 'shape']" tool="data.tool"></div>
 
     <a class="button" ng-click="save()">{{ strings.saveDrawingButton }}</a>
     <a ng-click="undo()" class="button minor">{{ strings.undoButton }}</a>

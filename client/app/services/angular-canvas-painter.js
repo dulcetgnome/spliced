@@ -126,6 +126,7 @@ angular.module('pw.canvas-painter')
 
 				//inti variables
 				var point = {x: 0, y: 0};
+				var startPoint = {x: 0, y: 0};
 				var ppts = [];
 
 				//set canvas size
@@ -204,6 +205,15 @@ angular.module('pw.canvas-painter')
 					}
 				};
 
+				var setStartPointFromEvent = function(point, e) {
+					if(isTouch){
+						startPoint.x = e.changedTouches[0].pageX - getOffset(e.target).left;
+						startPoint.y = e.changedTouches[0].pageY - getOffset(e.target).top;
+					} else {
+						startPoint.x = e.offsetX !== undefined ? e.offsetX : e.layerX;
+						startPoint.y = e.offsetY !== undefined ? e.offsetY : e.layerY;
+					}
+				};
 
 				var paint = function (e){
 					if(e){
@@ -245,8 +255,23 @@ angular.module('pw.canvas-painter')
 					ctxTmp.stroke();
 				};
 
+				var drawShape = function(e) {
+					if(e){
+						e.preventDefault();
+						setPointFromEvent(point, e);
+					}
+
+					// Tmp canvas is always cleared up before drawing.
+					ctxTmp.clearRect(0, 0, canvasTmp.width, canvasTmp.height);
+
+					var width = point.x - startPoint.x;
+					var height = point.y - startPoint.y;
+
+					ctxTmp.strokeRect(startPoint.x, startPoint.y, width, height);
+				}
+
 				var setPixel = function(ctx, x, y) {
-						ctx.fillRect(x,y,1,1)
+						ctx.fillRect(x,y,1,1);
 				};
 
 
@@ -331,15 +356,33 @@ angular.module('pw.canvas-painter')
 					paint();
 				};
 
+				var shapeTmpImage = function(e){
+					e.preventDefault();
+
+					setStartPointFromEvent(point, e);
+					canvasTmp.addEventListener(PAINT_MOVE, drawShape, false);
+
+					drawShape();
+				};
+
+
 				var paintStartFn = function(e){
 					if(options.tool === 'paint'){
 						paintTmpImage(e);
 					} else if(options.tool === 'fill'){
 						fillTmpImage(e);
+					} else if(options.tool === 'shape'){
+						shapeTmpImage(e);
 					}
 				};
 
 				var paintEndFn = function(e){
+					if(options.tool === 'paint'){
+						canvasTmp.removeEventListener(PAINT_MOVE, paint, false);
+					} else if(options.tool === 'fill'){
+					} else if(options.tool === 'shape'){
+						canvasTmp.removeEventListener(PAINT_MOVE, drawShape, false);
+					}
 					copyTmpImage();
 				};
 
