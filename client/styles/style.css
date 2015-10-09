@@ -28,7 +28,7 @@ a.button {
   border: 1px solid #000;
 }
 
-a:hover {
+a.button:hover {
   background: rgb(151, 202, 255);
 }
 
