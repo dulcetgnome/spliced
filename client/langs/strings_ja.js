@@ -22,5 +22,6 @@ var jaJP = {
   "successMessage": "終わった！絵は申し込まれている！",
   "drawingFinishMessage": "絵をしてありがとう。しばらくお待ち下さい。絵はすぐ出る。",
   "fellowArtistsMessage": "皆は共同作品を作るために一生懸命描いている。しばらくお待ち下さい。",
+  "toggleButton": "背景をトグル",
   "language": "日本語"
 };

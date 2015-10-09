@@ -22,5 +22,6 @@ var itIT = {
   "successMessage": "Successo! La tua immagine è stata inviata!",
   "drawingFinishMessage": "Ti ringraziamo per il disegno. Aspetta che tutti finiscano e ritorna in un momento successivo! L’immagine apparirà dopo pochi minuti quando tutti hanno finito.",
   "fellowArtistsMessage": "I tuoi colleghi artisti stanno lavorando con impegno al tuo capolavoro collaborativo. Controlla più tardi oppure punzecchiali su questo!",
-  "language": "Italiano",
+  "toggleButton": "Attiva sfondo",
+  "language": "Italiano"
 };

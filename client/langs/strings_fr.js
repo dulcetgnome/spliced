@@ -22,5 +22,6 @@ var frFR = {
   "successMessage": "Bravo! Votre image a été envoyée !",
   "drawingFinishMessage": "Merci d’avoir participé. Revenez voir le résultat final plus tard quand tous les participants auront terminé ! L’image apparaîtra quelques instants après la fin du dessin du dernier participant.",
   "fellowArtistsMessage": "Vos coéquipiers s’affairent à créer votre chef-d’œuvre collectif. Revenez voir le résultat plus tard ou dites-leur de s’activer !",
-  "language": "Français",
+  "toggleButton": "Activez fond",
+  "language": "Français"
 };
