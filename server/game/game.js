@@ -47,24 +47,25 @@ Game.prototype.addPlayer = function (player) {
 };
 
 Game.prototype.makeImages = function(callback) {
+  var picture = gm();
+  var path = 'server/assets/drawings/';
+  var ext = '.png';
+  for (var i = 0; i < 4; i++) {
+    if(fs.existsSync(path + this.gameCode + i + ext)) {
+      picture.append(path + this.gameCode + i + ext);
+    }
+  }
+  picture.write('client/uploads/' + this.gameCode + ext, function (err) {
+    if (err) {
+      console.log("There was an error creating the exquisite corpse:", err);
+      callback(err);
+    } else {
+      this.drawingFinished = true;
+      callback();
+    }
+  }.bind(this));
 
-    var readStream = fs.createReadStream("server/assets/drawings/" + this.gameCode + "0.png");
-    // using http://aheckmann.github.io/gm/docs.html#append
-
-    gm(readStream)
-    //This is not scalable for N players.  You'll need to append these in some kind of loop.
-    .append("server/assets/drawings/" + this.gameCode + "1.png", "server/assets/drawings/" + this.gameCode + "2.png", "server/assets/drawings/" + this.gameCode + "3.png")
-    .write('client/uploads/' + this.gameCode + '.png', function (err) {
-      if (err) {
-        console.log("There was an error creating the exquisite corpse:", err);
-        callback(err);
-      } else {
-        this.drawingFinished = true;
-        callback();
-      }
-
-    }.bind(this));
-  },
+},
 
 Game.prototype.checkFinalImage = function(finalImageReadyCallback, gameInProgressCallback) {
 
