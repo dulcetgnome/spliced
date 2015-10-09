@@ -4,7 +4,7 @@ var fs = require('fs');
 var Game = function () {
   var randomTemplateNumber = Math.floor(Math.random() * 5);
   /* Number will be number of background options */
-  var randomBackgroundNumber = Math.floor(Math.random() * 1);
+  var randomBackgroundNumber = Math.floor(Math.random() * 5);
 
   this.gameCode = this.createUniqueGameCode();
   this.numPlayers = 4;
@@ -48,11 +48,13 @@ Game.prototype.addPlayer = function (player) {
 
 Game.prototype.makeImages = function(callback) {
   var picture = gm();
-  var path = 'server/assets/drawings/';
+  var path = 'server/assets/';
   var ext = '.png';
   for (var i = 0; i < 4; i++) {
-    if(fs.existsSync(path + this.gameCode + i + ext)) {
-      picture.append(path + this.gameCode + i + ext);
+    if(fs.existsSync(path + 'drawings/' + this.gameCode + i + ext)) {
+      picture.append(path + 'drawings/' + this.gameCode + i + ext);
+    } else {
+      picture.append(path + 'defaults/' + this.template + '-' + i + ext);
     }
   }
   picture.write('client/uploads/' + this.gameCode + ext, function (err) {
