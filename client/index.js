@@ -21,4 +21,7 @@ angular.module('spliced.index', [])
     $rootScope.strings = itIT;
   };
 
+  $scope.chooseJapanese = function() {
+    $rootScope.strings = jaJP;
+  };
 });
