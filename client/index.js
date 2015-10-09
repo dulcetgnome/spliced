@@ -1,13 +1,9 @@
 angular.module('spliced.index', [])
 
-.controller('IndexController', function ($rootScope, $scope, Strings) {
+.controller('IndexController', function ($rootScope, $scope) {
   $scope.data = {};
 
   $rootScope.strings = enUS;
-
-  $scope.data.test = "Hello World!";
-
-  // $rootScope.strings = enUS;
 
   $scope.chooseEnglish = function() {
     $rootScope.strings = enUS;
