@@ -50,7 +50,7 @@ module.exports = {
       setTimeout(function() {
         if (!game.drawingFinished) {
           game.makeImages(function() {
-            res.sendStatus(201);
+            //res.sendStatus(201);
           });
         }
       }, (game.gameLength + 10) * 1000);
@@ -71,7 +71,7 @@ module.exports = {
     // so we are assuming it is valid data
     // check if the user has submitted their drawing.
     var username = req.session.user;
-    var player = game.players[username];
+    var player = game.players[username] || {};
 
     var codeAndDrawingStatus = game.gameCode + '_' + 'submitted_drawing';
     var responseObj = {};

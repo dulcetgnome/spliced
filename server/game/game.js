@@ -3,8 +3,9 @@ var fs = require('fs');
 
 var Game = function () {
   var randomTemplateNumber = Math.floor(Math.random() * 5);
-  /* Number will be number of background options */
-  var randomBackgroundNumber = Math.floor(Math.random() * 1);
+
+  var backgrounds = ['beach', 'field', 'space', 'burst']; 
+  var randomBackgroundNumber = Math.floor(Math.random() * backgrounds.length);
 
   this.gameCode = this.createUniqueGameCode();
   this.numPlayers = 4;
@@ -12,7 +13,7 @@ var Game = function () {
   this.submissionCount = 0;
   this.drawingFinished = false;
   this.template = randomTemplateNumber;
-  this.background = randomBackgroundNumber;
+  this.background = backgrounds[randomBackgroundNumber];
   this.startTime = null;
   /* In seconds */
   this.gameLength = 120;
@@ -47,24 +48,39 @@ Game.prototype.addPlayer = function (player) {
 };
 
 Game.prototype.makeImages = function(callback) {
+  var picture = gm();
+  var path = 'server/assets/';
+  var ext = '.png';
+  for (var i = 0; i < 4; i++) {
+    if(fs.existsSync(path + 'drawings/' + this.gameCode + i + ext)) {
+      picture.append(path + 'drawings/' + this.gameCode + i + ext);
+    } else {
+      picture.append(path + 'defaults/' + this.template + '-' + i + ext);
+    }
+  }
+  picture.write('client/uploads/' + this.gameCode + '.temp' + ext, function (err) {
+    if (err) {
+      console.log('There was an error creating the exquisite corpse:', err);
+      callback(err);
+    } else {
+      gm().command('composite') 
+        .in('-gravity', 'center')
+        .in('client/uploads/' + this.gameCode + '.temp' + ext)
+        .in('client/assets/bg/' + this.background + '.png')
+        .write('client/uploads/' + this.gameCode + ext, function (err) {
+          if (err) {
+            console.log('There was an error creating the exquisite corpse:', err);
+            callback(err);
+          }
+          else {
+            this.drawingFinished = true;
+            callback();
+          }
+        });
+    }
+  }.bind(this));
 
-    var readStream = fs.createReadStream("server/assets/drawings/" + this.gameCode + "0.png");
-    // using http://aheckmann.github.io/gm/docs.html#append
-
-    gm(readStream)
-    //This is not scalable for N players.  You'll need to append these in some kind of loop.
-    .append("server/assets/drawings/" + this.gameCode + "1.png", "server/assets/drawings/" + this.gameCode + "2.png", "server/assets/drawings/" + this.gameCode + "3.png")
-    .write('client/uploads/' + this.gameCode + '.png', function (err) {
-      if (err) {
-        console.log("There was an error creating the exquisite corpse:", err);
-        callback(err);
-      } else {
-        this.drawingFinished = true;
-        callback();
-      }
-
-    }.bind(this));
-  },
+},
 
 Game.prototype.checkFinalImage = function(finalImageReadyCallback, gameInProgressCallback) {
 
