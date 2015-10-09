@@ -4,7 +4,7 @@ angular.module('spliced.strings', [])
   var services = {};
 
   services.en = function() {
-    return esES;
+    return enUS;
   }
 
   return services;
