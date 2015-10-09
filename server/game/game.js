@@ -58,14 +58,14 @@ Game.prototype.makeImages = function(callback) {
       picture.append(path + 'defaults/' + this.template + '-' + i + ext);
     }
   }
-  picture.write('client/uploads/' + this.gameCode + '.temp' + ext, function (err) {
+  picture.write('server/assets/temp/' + this.gameCode + '.temp' + ext, function (err) {
     if (err) {
       console.log('There was an error creating the exquisite corpse:', err);
       callback(err);
     } else {
       gm().command('composite') 
         .in('-gravity', 'center')
-        .in('client/uploads/' + this.gameCode + '.temp' + ext)
+        .in('server/assets/temp/' + this.gameCode + '.temp' + ext)
         .in('client/assets/bg/' + this.background + '.png')
         .write('client/uploads/' + this.gameCode + ext, function (err) {
           if (err) {
