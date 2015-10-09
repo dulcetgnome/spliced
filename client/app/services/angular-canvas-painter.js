@@ -178,7 +178,6 @@ angular.module('pw.canvas-painter')
 				});
 
 				scope.$watch('options.color', function(newValue){
-					console.log(newValue);
 					if(newValue){
 						//ctx.fillStyle = newValue;
 						ctxTmp.strokeStyle = ctxTmp.fillStyle = newValue;
@@ -192,14 +191,12 @@ angular.module('pw.canvas-painter')
 				});
 
 				scope.$watch('options.tool', function(newValue){
-					console.log(newValue);
 					if(newValue){
 						options.tool = newValue;
 					}
 				});
 
 				scope.$watch('options.shape', function(newValue){
-					console.log(newValue);
 					if(newValue){
 						options.shape = newValue;
 					}
@@ -466,6 +463,7 @@ angular.module('pw.canvas-painter')
 					e.preventDefault();
 
 					setStartPointFromEvent(point, e);
+					setPointFromEvent(point, e);
 					canvasTmp.addEventListener(PAINT_MOVE, drawShape, false);
 
 					drawShape();
@@ -582,11 +580,12 @@ angular.module('pw.canvas-painter')
 			restrict: 'AE',
 			scope: {
 				fillStates: '=pwFillSelector',
-				fillShape: '=fillShape'
+				fillShape: '=state'
 			},
 			templateUrl: '../templates/fill-selector.html',
 			link: function(scope){
 				scope.setFill = function(state){
+					console.dir(state);
 					scope.fillShape = state;
 				};
 			}
