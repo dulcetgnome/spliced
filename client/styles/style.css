@@ -121,8 +121,10 @@ img.img {
   position: relative;
   left: 230px;
   top: -65px;
-  width: 20px;
-  height: 20px;
+}
+
+.lang img {
+  max-width: 30px;
 }
 
 .lang:hover {
